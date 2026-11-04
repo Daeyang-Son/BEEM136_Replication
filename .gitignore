@@ -1,0 +1,6 @@
+# Exclude all Stata data files
+*.dta
+
+# Exclude Stata log files (optional)
+*.log
+*.smcl

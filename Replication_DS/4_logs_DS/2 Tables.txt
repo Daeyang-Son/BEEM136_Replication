@@ -1,0 +1,197 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\4_logs_DS\2 Tables.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 4 Nov 2026, 07:41:21
+{txt}
+{com}. 
+. 
+. * Replication Table 3 OLS       
+. ********************************************************************************        
+. di "FINANCE AND CARBON EMISSIONS (TABLE 3)"
+{res}FINANCE AND CARBON EMISSIONS (TABLE 3)
+{txt}
+{com}. ********************************************************************************
+. 
+. use "$data\2_Interim files_DS\country_sector_cleaned.dta", clear
+{txt}
+{com}. 
+. 
+. lab var cotwo_fin_dev1_l1 "Financial development $\times$ CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. lab var cotwo_fin_str2_l1 "Equity share $\times$ CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. lab var share_l1 "Sector share"
+{txt}
+{com}. 
+. 
+. eststo clear
+{txt}
+{com}. 
+. 
+. eststo ols_pergdp: reghdfe cotwo_per_gdp cotwo_fin_dev1_l1 cotwo_fin_str2_l1 share_l1, absorb(ci it ct) cluster(ci)
+{res}{txt}(dropped 25 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 10 iterations)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}     7,540
+{txt}Absorbing 3 HDFE groups{col 51}F({res}   3{txt},{res}    366{txt}){col 67}= {res}      5.49
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0011
+{txt}{col 51}R-squared{col 67}= {res}    0.9265
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9080
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.0390
+{txt}{col 1}Number of clusters ({res}ci{txt}) {col 30}= {res}       367{txt}{col 51}Root MSE{col 67}= {res}    0.0049
+
+{txt}{ralign 79:(Std. err. adjusted for {res:367} clusters in {res:ci})}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}cotwo_per_gdp{col 15}{c |} Coefficient{col 27}  std. err.{col 39}      t{col 47}   P>|t|{col 55}     [95% con{col 68}f. interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+cotwo_fi~1_l1 {c |}{col 15}{res}{space 2}-.0002865{col 27}{space 2} .0003067{col 38}{space 1}   -0.93{col 47}{space 3}0.351{col 55}{space 4}-.0008897{col 68}{space 3} .0003167
+{txt}cotwo_fi~2_l1 {c |}{col 15}{res}{space 2}-.0044345{col 27}{space 2} .0018897{col 38}{space 1}   -2.35{col 47}{space 3}0.019{col 55}{space 4}-.0081505{col 68}{space 3}-.0007186
+{txt}{space 5}share_l1 {c |}{col 15}{res}{space 2} .0229323{col 27}{space 2} .0061094{col 38}{space 1}    3.75{col 47}{space 3}0.000{col 55}{space 4} .0109184{col 68}{space 3} .0349462
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2} .0076069{col 27}{space 2} .0011063{col 38}{space 1}    6.88{col 47}{space 3}0.000{col 55}{space 4} .0054314{col 68}{space 3} .0097823
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text} Absorbed FE{col 14}{c |} Categories{col 27} - Redundant{col 39}  = Num. Coefs{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}          ci{col 14}{c |}{space 1}      367{col 27}{space 1}      367{col 39}{result}{space 1}        0{col 53}{text}*{col 54}{c |}
+{res}{col 1}{text}          it{col 14}{c |}{space 1}      225{col 27}{space 1}        1{col 39}{result}{space 1}      224{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}          ct{col 14}{c |}{space 1}      950{col 27}{space 1}       25{col 39}{result}{space 1}      925{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+* = FE nested within cluster; treated as redundant for DoF computation
+{res}{txt}
+{com}. 
+. 
+. estadd local crtsecFE "Yes": ols_pergdp
+{txt}
+{com}. estadd local crtyrFE "Yes": ols_pergdp
+{txt}
+{com}. estadd local secyrFE "Yes": ols_pergdp
+{txt}
+{com}. 
+. 
+. noi esttab ols_pergdp using "${c -(}tables{c )-}\\Table.tex", replace ///
+>         keep(cotwo_fin_dev1_l1 cotwo_fin_str2_l1 share_l1)  b(%9.4f) se(%9.4f) nonum nolines ///
+>         stats(crtsecFE crtyrFE secyrFE r2 N, fmt(0 0 0 2 %15.0fc) /// 
+>         labels("\hline \addlinespace[1ex] Country $\times$ Sector FE" "Country $\times$ Year FE" "Sector $\times$ Year FE" "\hline \addlinespace[1ex] R-squared" "No. Observations")) ///
+>         label nomtitles style(tex) nogaps nonotes star(* .1 ** .05 *** .01)     
+{res}{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\3_tables_DS\\Table.tex{rm}
+not found)
+{p_end}
+(output written to {browse  `"C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\3_tables_DS\\Table.tex"'})
+
+{com}. 
+.         
+. filefilter "${c -(}tables{c )-}\\Table.tex" "${c -(}tables{c )-}\\Table-fin.tex", from("CO{c -(}2{c )-}") to("CO\$_{c -(}2{c )-}\$") replace    
+{txt}(file C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\3_tables_DS\\Table-fin.tex was replaced)
+
+{com}. cap erase "${c -(}tables{c )-}\\Table.tex"                
+{txt}
+{com}.                 
+. 
+. 
+. * Extension of Replication Table 3 OLS
+. ********************************************************************************
+. di "EXTENSION: EXCLUDING HIGH ENVIRONMENTAL POLICY COUNTRIES - TABLE 3"
+{res}EXTENSION: EXCLUDING HIGH ENVIRONMENTAL POLICY COUNTRIES - TABLE 3
+{txt}
+{com}. ********************************************************************************
+. 
+. use "$data\2_Interim files_DS\country_sector_cleaned.dta", clear
+{txt}
+{com}. 
+. 
+. lab var cotwo_fin_dev1_l1 "Financial development $\times$ CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. lab var cotwo_fin_str2_l1 "Equity share $\times$ CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. lab var share_l1 "Sector share"
+{txt}
+{com}. 
+. 
+. * Exclude the same 18 countries (inlist - max 10)
+. drop if inlist(country, "Australia", "Brazil", "Canada", "China", "France", "Germany")
+{txt}(2,039 observations deleted)
+
+{com}. drop if inlist(country, "India", "Ireland", "Italy", "Japan", "Mexico", "Netherlands")
+{txt}(2,458 observations deleted)
+
+{com}. drop if inlist(country, "Norway", "Portugal", "Spain", "Sweden", "United Kingdom", "United States")
+{txt}(2,496 observations deleted)
+
+{com}. 
+. 
+. eststo ext: reghdfe cotwo_per_gdp cotwo_fin_dev1_l1 cotwo_fin_str2_l1 share_l1, absorb(ci it ct) cluster(ci)
+{res}{txt}(dropped 25 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 10 iterations)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}     4,366
+{txt}Absorbing 3 HDFE groups{col 51}F({res}   3{txt},{res}    221{txt}){col 67}= {res}      5.64
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0010
+{txt}{col 51}R-squared{col 67}= {res}    0.9227
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9004
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.0496
+{txt}{col 1}Number of clusters ({res}ci{txt}) {col 30}= {res}       222{txt}{col 51}Root MSE{col 67}= {res}    0.0061
+
+{txt}{ralign 79:(Std. err. adjusted for {res:222} clusters in {res:ci})}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}cotwo_per_gdp{col 15}{c |} Coefficient{col 27}  std. err.{col 39}      t{col 47}   P>|t|{col 55}     [95% con{col 68}f. interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+cotwo_fi~1_l1 {c |}{col 15}{res}{space 2}-.0003775{col 27}{space 2} .0005093{col 38}{space 1}   -0.74{col 47}{space 3}0.459{col 55}{space 4}-.0013812{col 68}{space 3} .0006262
+{txt}cotwo_fi~2_l1 {c |}{col 15}{res}{space 2}-.0050544{col 27}{space 2} .0021069{col 38}{space 1}   -2.40{col 47}{space 3}0.017{col 55}{space 4}-.0092067{col 68}{space 3}-.0009022
+{txt}{space 5}share_l1 {c |}{col 15}{res}{space 2}  .030583{col 27}{space 2} .0080761{col 38}{space 1}    3.79{col 47}{space 3}0.000{col 55}{space 4} .0146671{col 68}{space 3}  .046499
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2} .0088002{col 27}{space 2} .0013331{col 38}{space 1}    6.60{col 47}{space 3}0.000{col 55}{space 4}  .006173{col 68}{space 3} .0114274
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text} Absorbed FE{col 14}{c |} Categories{col 27} - Redundant{col 39}  = Num. Coefs{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}          ci{col 14}{c |}{space 1}      222{col 27}{space 1}      222{col 39}{result}{space 1}        0{col 53}{text}*{col 54}{c |}
+{res}{col 1}{text}          it{col 14}{c |}{space 1}      225{col 27}{space 1}        1{col 39}{result}{space 1}      224{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}          ct{col 14}{c |}{space 1}      554{col 27}{space 1}       25{col 39}{result}{space 1}      529{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+* = FE nested within cluster; treated as redundant for DoF computation
+{res}{txt}
+{com}. 
+. 
+. estadd local crtsecFE "Yes": ext
+{txt}
+{com}. estadd local crtyrFE "Yes": ext
+{txt}
+{com}. estadd local secyrFE "Yes": ext
+{txt}
+{com}. 
+. 
+. noi esttab ext using "${c -(}tables{c )-}\Table-Extension.tex", replace ///
+>     keep(cotwo_fin_dev1_l1 cotwo_fin_str2_l1 share_l1)  b(%9.4f) se(%9.4f) nonum nolines ///
+>     stats(crtsecFE crtyrFE secyrFE r2 N, fmt(0 0 0 2 %15.0fc) ///
+>     labels("\hline \addlinespace[1ex] Country $\times$ Sector FE" "Country $\times$ Year FE" "Sector $\times$ Year FE" "\hline \addlinespace[1ex] R-squared" "No. Observations")) ///
+>         label nomtitles style(tex) nogaps nonotes star(* .1 ** .05 *** .01)
+{res}{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\3_tables_DS\Table-Extension.tex{rm}
+not found)
+{p_end}
+(output written to {browse  `"C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\3_tables_DS\Table-Extension.tex"'})
+
+{com}. 
+.         
+. filefilter "${c -(}tables{c )-}\\Table-Extension.tex" "${c -(}tables{c )-}\\Table-Extension-fin.tex", from("CO{c -(}2{c )-}") to("CO\$_{c -(}2{c )-}\$") replace
+{txt}(file C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\3_tables_DS\\Table-Extension-fin.tex was replaced)
+
+{com}. cap erase "${c -(}tables{c )-}\\Table-Extension.tex"                      
+{txt}
+{com}.         
+. 
+.         
+.                 
+. capture log close
+{smcl}
+{com}{sf}{ul off}

@@ -1,0 +1,798 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\4_logs\4 Tables Appendix.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 2 Nov 2026, 21:23:58
+{txt}
+{com}.  
+. ********************************************************************************        
+. di "SUMMARY STATISTICS (TA2)"
+{res}SUMMARY STATISTICS (TA2)
+{txt}
+{com}. ********************************************************************************
+. 
+. use "$data\2_Interim files\country_cleaned.dta", clear
+{txt}
+{com}. 
+. ** country-level
+. 
+. 
+. lab var cotwo_total_per_gdp "CO$_{c -(}2{c )-} emissions/GDP"
+{txt}
+{com}. lab var fin_dev1 "Financial development"
+{txt}
+{com}. lab var fin_str2 "Equity share"
+{txt}
+{com}. lab var gdp_per_cap "GDP per capita"
+{txt}
+{com}. lab var pop_mil "Population"
+{txt}
+{com}. lab var recession "Recession"
+{txt}
+{com}. lab var dom_st_lawpol "# environmental laws and policies"
+{txt}
+{com}. lab var entrybarriers "Entry barriers"
+{txt}
+{com}. lab var treated_stock "Equity market liberalization"
+{txt}
+{com}. lab var cur100 "Current account liberalization"
+{txt}
+{com}. 
+. global country_lev "cotwo_total_per_gdp fin_dev1 fin_str2 gdp_per_cap pop_mil recession dom_st_lawpol entrybarriers treated_stock cur100"
+{txt}
+{com}. 
+. tabstat $country_lev, stat(mean p50 sd min  max) col(stats)
+
+{txt}{ralign 12:Variable} {...}
+{c |}      Mean       p50        SD       Min       Max
+{hline 13}{c +}{hline 50}
+{ralign 12:cotwo_tot~dp} {...}
+{c |}{...}
+ {res} .5301449  .3166943  .5947435  .0659963  3.994357
+{txt}{ralign 12:fin_dev1} {...}
+{c |}{...}
+ {res} 1.212367  1.078774  .8006875  .0292578  4.138228
+{txt}{ralign 12:fin_str2} {...}
+{c |}{...}
+ {res} .3894828  .3871366  .1671981   .001298  .9894915
+{txt}{ralign 12:gdp_per_cap} {...}
+{c |}{...}
+ {res}  24626.5  17661.35  21714.93  553.2373  110001.1
+{txt}{ralign 12:pop_mil} {...}
+{c |}{...}
+ {res} .0870862  .0155073  .2372501  .0003818  1.397029
+{txt}{ralign 12:recession} {...}
+{c |}{...}
+ {res} .2259655         0  .4183885         0         1
+{txt}{ralign 12:dom_st_law~l} {...}
+{c |}{...}
+ {res} 21.96099        12  28.61547         0       197
+{txt}{ralign 12:entrybarri~s} {...}
+{c |}{...}
+ {res} 2.621101         3   .735131         0         3
+{txt}{ralign 12:treated_st~k} {...}
+{c |}{...}
+ {res} .9109149         1  .2849809         0         1
+{txt}{ralign 12:cur100} {...}
+{c |}{...}
+ {res} 82.78797     93.75  22.65086         0       100
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. 
+. keep $country_lev
+{txt}
+{com}. outreg2 using "${c -(}tables{c )-}\\Table_TA2.tex", replace sum(detail) eqkeep(mean p50 sd min  max) tex(frag) label dec(3) sortvar($country_lev)
+
+                     {txt}CO{c -(}2{c )-} emissions/GDP
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .0785952       .0659963
+{txt} 5%    {res} .1025927       .0676355
+{txt}10%    {res}  .157452       .0682171       {txt}Obs         {res}      1,226
+{txt}25%    {res} .2063656       .0713783       {txt}Sum of wgt. {res}      1,226
+
+{txt}50%    {res} .3166943                      {txt}Mean          {res} .5301449
+                        {txt}Largest       Std. dev.     {res} .5947435
+{txt}75%    {res} .5230544       3.638478
+{txt}90%    {res}   1.3047       3.766055       {txt}Variance      {res} .3537198
+{txt}95%    {res} 1.717188       3.856302       {txt}Skewness      {res} 2.742737
+{txt}99%    {res} 3.139902       3.994357       {txt}Kurtosis      {res} 11.61099
+
+                       {txt}GDP per capita
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} 794.4812       553.2373
+{txt} 5%    {res} 1492.212       558.7151
+{txt}10%    {res} 2357.396       572.0136       {txt}Obs         {res}      1,227
+{txt}25%    {res} 6533.675       587.5129       {txt}Sum of wgt. {res}      1,227
+
+{txt}50%    {res} 17661.35                      {txt}Mean          {res}  24626.5
+                        {txt}Largest       Std. dev.     {res} 21714.93
+{txt}75%    {res} 39143.05       103267.3
+{txt}90%    {res} 50215.95       103588.6       {txt}Variance      {res} 4.72e+08
+{txt}95%    {res} 65096.54       107141.2       {txt}Skewness      {res} 1.053165
+{txt}99%    {res} 92693.18       110001.1       {txt}Kurtosis      {res} 3.892056
+
+                          {txt}Recession
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}      1,217
+{txt}25%    {res}        0              0       {txt}Sum of wgt. {res}      1,217
+
+{txt}50%    {res}        0                      {txt}Mean          {res} .2259655
+                        {txt}Largest       Std. dev.     {res} .4183885
+{txt}75%    {res}        0              1
+{txt}90%    {res}        1              1       {txt}Variance      {res} .1750489
+{txt}95%    {res}        1              1       {txt}Skewness      {res} 1.310491
+{txt}99%    {res}        1              1       {txt}Kurtosis      {res} 2.717387
+
+                         {txt}Population
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .0004462       .0003818
+{txt} 5%    {res} .0019889        .000387
+{txt}10%    {res} .0034995       .0003922       {txt}Obs         {res}      1,246
+{txt}25%    {res}    .0068       .0003975       {txt}Sum of wgt. {res}      1,246
+
+{txt}50%    {res} .0155073                      {txt}Mean          {res} .0870862
+                        {txt}Largest       Std. dev.     {res} .2372501
+{txt}75%    {res} .0594515       1.350695
+{txt}90%    {res} .1430495        1.35738       {txt}Variance      {res} .0562876
+{txt}95%    {res} .2955166        1.39011       {txt}Skewness      {res} 4.329741
+{txt}99%    {res} 1.296075       1.397029       {txt}Kurtosis      {res}  20.9649
+
+               {txt}Current account liberalization
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}     12.5              0
+{txt} 5%    {res}    30.46              0
+{txt}10%    {res}    43.75              0       {txt}Obs         {res}      1,116
+{txt}25%    {res}       75              0       {txt}Sum of wgt. {res}      1,116
+
+{txt}50%    {res}    93.75                      {txt}Mean          {res} 82.78797
+                        {txt}Largest       Std. dev.     {res} 22.65086
+{txt}75%    {res}      100            100
+{txt}90%    {res}      100            100       {txt}Variance      {res} 513.0613
+{txt}95%    {res}      100            100       {txt}Skewness      {res}-1.504139
+{txt}99%    {res}      100            100       {txt}Kurtosis      {res} 4.462858
+
+                {txt}Equity market liberalization
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        1              0       {txt}Obs         {res}      1,246
+{txt}25%    {res}        1              0       {txt}Sum of wgt. {res}      1,246
+
+{txt}50%    {res}        1                      {txt}Mean          {res} .9109149
+                        {txt}Largest       Std. dev.     {res} .2849809
+{txt}75%    {res}        1              1
+{txt}90%    {res}        1              1       {txt}Variance      {res} .0812141
+{txt}95%    {res}        1              1       {txt}Skewness      {res}-2.884965
+{txt}99%    {res}        1              1       {txt}Kurtosis      {res} 9.323023
+
+              {txt}# environmental laws and policies
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        1              0       {txt}Obs         {res}      1,410
+{txt}25%    {res}        3              0       {txt}Sum of wgt. {res}      1,410
+
+{txt}50%    {res}       12                      {txt}Mean          {res} 21.96099
+                        {txt}Largest       Std. dev.     {res} 28.61547
+{txt}75%    {res}       31            183
+{txt}90%    {res}       56            190       {txt}Variance      {res} 818.8452
+{txt}95%    {res}       79            195       {txt}Skewness      {res} 2.483554
+{txt}99%    {res}      148            197       {txt}Kurtosis      {res} 11.14775
+
+                       {txt}Entry barriers
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        1              0
+{txt}10%    {res}        1              0       {txt}Obs         {res}      1,090
+{txt}25%    {res}        3              0       {txt}Sum of wgt. {res}      1,090
+
+{txt}50%    {res}        3                      {txt}Mean          {res} 2.621101
+                        {txt}Largest       Std. dev.     {res}  .735131
+{txt}75%    {res}        3              3
+{txt}90%    {res}        3              3       {txt}Variance      {res} .5404175
+{txt}95%    {res}        3              3       {txt}Skewness      {res}-1.879453
+{txt}99%    {res}        3              3       {txt}Kurtosis      {res} 5.563468
+
+                    {txt}Financial development
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .1195206       .0292578
+{txt} 5%    {res} .2077792       .0296956
+{txt}10%    {res}  .294184       .0566499       {txt}Obs         {res}      1,117
+{txt}25%    {res}  .559876       .0685033       {txt}Sum of wgt. {res}      1,117
+
+{txt}50%    {res} 1.078774                      {txt}Mean          {res} 1.212367
+                        {txt}Largest       Std. dev.     {res} .8006875
+{txt}75%    {res} 1.715553       3.854631
+{txt}90%    {res} 2.354108       3.970044       {txt}Variance      {res} .6411004
+{txt}95%    {res} 2.716941       4.030339       {txt}Skewness      {res} .8246771
+{txt}99%    {res} 3.561328       4.138228       {txt}Kurtosis      {res} 3.291908
+
+                        {txt}Equity share
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .0224532        .001298
+{txt} 5%    {res} .1288558       .0014863
+{txt}10%    {res} .1771713       .0018395       {txt}Obs         {res}      1,117
+{txt}25%    {res} .2665089       .0021962       {txt}Sum of wgt. {res}      1,117
+
+{txt}50%    {res} .3871366                      {txt}Mean          {res} .3894828
+                        {txt}Largest       Std. dev.     {res} .1671981
+{txt}75%    {res} .5038576       .9863344
+{txt}90%    {res} .6017658       .9880122       {txt}Variance      {res} .0279552
+{txt}95%    {res} .6448798       .9888406       {txt}Skewness      {res} .2711552
+{txt}99%    {res} .7816365       .9894915       {txt}Kurtosis      {res} 3.284077
+
+
+{txt}C:\Users\ocean\ado\plus/o/outreg2.ado
+{stata `"shellout using `"C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.tex"'"':C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.tex}
+{browse `"C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables"' :dir}{com} : {txt}{stata `"seeout using "C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.txt", label"':seeout}
+
+{com}. 
+. 
+. filefilter "${c -(}tables{c )-}\\Table_TA2.tex" "${c -(}tables{c )-}\\Table_TA2_1.tex", from(" & (1) & (2) & (3) & (4) & (5) \BS\BS") to("") replace        
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_1.tex" "${c -(}tables{c )-}\\Table_TA2_2.tex", from(" &  &  &  &  &  \BS\BS") to("") replace     
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_2.tex" "${c -(}tables{c )-}\\Table_TA2_3.tex", from("\BSbegin{c -(}tabular{c )-}{c -(}lccccc{c )-} \BShline") to("") replace 
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_3.tex" "${c -(}tables{c )-}\\Table_TA2_4.tex", from(" &  &  &  &  &  \BS\BS \BShline") to("") replace
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_4.tex" "${c -(}tables{c )-}\\Table_TA2_5.tex", from("VARIABLES & mean & p50 & sd & min & max \BS\BS \BShline") to("") replace    
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_5.tex" "${c -(}tables{c )-}\\Table_TA2_6.tex", from("\BSend{c -(}tabular{c )-}") to("") replace    
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_6.tex" "${c -(}tables{c )-}\\Table_TA2_country-fin.tex", from("CO{c -(}2{c )-}") to("CO\$_{c -(}2{c )-}\$") replace  
+{txt}
+{com}. 
+. cap erase "${c -(}tables{c )-}\Table_TA2.tex"
+{txt}
+{com}. forvalues i = 1(1)6 {c -(}
+{txt}  2{com}.                 cap erase "${c -(}tables{c )-}\\Table_TA2_`i'.tex"
+{txt}  3{com}.         {c )-}
+{txt}
+{com}. cap erase "${c -(}tables{c )-}\Table_TA2.txt"
+{txt}
+{com}. 
+. 
+. ** industry level (UNIDO)
+. 
+. use "$data\2_Interim files\country_sector_cleaned.dta", clear
+{txt}
+{com}. 
+. lab var cotwo_per_gdp "CO2 emissions/GDP"
+{txt}
+{com}. lab var va_g "Growth in value added"
+{txt}
+{com}. lab var cotwo_per_va "CO2 emissions per value added"
+{txt}
+{com}. lab var green_patents_adjusted_per_gdp "Green patents/GDP"
+{txt}
+{com}. lab var green_patents_adjusted_a_per_gdp "Green patents/GDP (excl. transport and waste)"
+{txt}
+{com}. lab var green_patents_adjusted_b_per_gdp "Green patents/GDP (energy intensive sectors)"
+{txt}
+{com}. lab var share "Sector share"
+{txt}
+{com}. 
+. gen manf = (inlist(industry, 20, 26, 27, 1516, 1719, 2122, 2325, 2833, 3435))
+{txt}
+{com}. 
+. keep if manf==1
+{txt}(8,253 observations deleted)
+
+{com}. 
+. global industry_lev "cotwo_per_gdp va_g cotwo_per_va share green_patents_adjusted_per_gdp green_patents_adjusted_a_per_gdp green_patents_adjusted_b_per_gdp"
+{txt}
+{com}. 
+. tabstat $industry_lev, stat(mean p50 sd min  max) col(stats)
+
+{txt}{ralign 12:Variable} {...}
+{c |}      Mean       p50        SD       Min       Max
+{hline 13}{c +}{hline 50}
+{ralign 12:cotwo_per~dp} {...}
+{c |}{...}
+ {res} .0090709   .002621  .0286209  1.60e-06  .5700216
+{txt}{ralign 12:va_g} {...}
+{c |}{...}
+ {res} .0002057  .0063745    .20277        -1         1
+{txt}{ralign 12:cotwo_per_va} {...}
+{c |}{...}
+ {res} 1.379112  .3356962  3.306895  .0011958    57.428
+{txt}{ralign 12:share} {...}
+{c |}{...}
+ {res} .1041622  .0721638  .0920579         0  .5051054
+{txt}{ralign 12:gr~d_per_gdp} {...}
+{c |}{...}
+ {res} .0067587         0  .0281623         0  .8706004
+{txt}{ralign 12:gr~a_per_gdp} {...}
+{c |}{...}
+ {res} .0048939         0  .0210213         0  .6508368
+{txt}{ralign 12:gr~b_per_gdp} {...}
+{c |}{...}
+ {res} .0019834         0   .007088         0  .1941017
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. 
+. keep $industry_lev
+{txt}
+{com}. outreg2 using "${c -(}tables{c )-}\\Table_TA2.tex", replace sum(detail) eqkeep(mean p50 sd min  max) tex(frag) label dec(3) sortvar($industry_lev)
+
+                      {txt}CO2 emissions/GDP
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .0000441       1.60e-06
+{txt} 5%    {res}  .000141       2.27e-06
+{txt}10%    {res} .0002405       8.74e-06       {txt}Obs         {res}      9,242
+{txt}25%    {res} .0007478       9.09e-06       {txt}Sum of wgt. {res}      9,242
+
+{txt}50%    {res}  .002621                      {txt}Mean          {res} .0090709
+                        {txt}Largest       Std. dev.     {res} .0286209
+{txt}75%    {res} .0071866       .4884621
+{txt}90%    {res} .0161793       .4891773       {txt}Variance      {res} .0008192
+{txt}95%    {res} .0323091        .505748       {txt}Skewness      {res} 10.36624
+{txt}99%    {res} .1188801       .5700216       {txt}Kurtosis      {res} 146.0224
+
+                    {txt}Growth in value added
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}-.7828056             -1
+{txt} 5%    {res}-.2927039             -1
+{txt}10%    {res}-.1731905             -1       {txt}Obs         {res}      9,772
+{txt}25%    {res}-.0615208             -1       {txt}Sum of wgt. {res}      9,772
+
+{txt}50%    {res} .0063745                      {txt}Mean          {res} .0002057
+                        {txt}Largest       Std. dev.     {res}   .20277
+{txt}75%    {res} .0726486              1
+{txt}90%    {res} .1706515              1       {txt}Variance      {res} .0411157
+{txt}95%    {res} .2584104              1       {txt}Skewness      {res}-.3840757
+{txt}99%    {res} .6684649              1       {txt}Kurtosis      {res} 11.45468
+
+                        {txt}Sector share
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res} .0084171              0
+{txt}10%    {res}   .01575              0       {txt}Obs         {res}      9,920
+{txt}25%    {res} .0355101              0       {txt}Sum of wgt. {res}      9,920
+
+{txt}50%    {res} .0721638                      {txt}Mean          {res} .1041622
+                        {txt}Largest       Std. dev.     {res} .0920579
+{txt}75%    {res} .1525124       .4857752
+{txt}90%    {res}  .237302       .4858669       {txt}Variance      {res} .0084747
+{txt}95%    {res} .3002851       .4907878       {txt}Skewness      {res}  1.29834
+{txt}99%    {res} .3872484       .5051054       {txt}Kurtosis      {res} 4.316847
+
+                {txt}CO2 emissions per value added
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .0121555       .0011958
+{txt} 5%    {res} .0307739       .0017457
+{txt}10%    {res} .0510738       .0019735       {txt}Obs         {res}      8,479
+{txt}25%    {res} .1351606       .0021131       {txt}Sum of wgt. {res}      8,479
+
+{txt}50%    {res} .3356962                      {txt}Mean          {res} 1.379112
+                        {txt}Largest       Std. dev.     {res} 3.306895
+{txt}75%    {res} 1.153604       54.19027
+{txt}90%    {res} 3.206646       55.14006       {txt}Variance      {res} 10.93555
+{txt}95%    {res} 6.153049       56.25802       {txt}Skewness      {res} 6.564858
+{txt}99%    {res} 16.80735         57.428       {txt}Kurtosis      {res} 69.10199
+
+                      {txt}Green patents/GDP
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}     10,078
+{txt}25%    {res}        0              0       {txt}Sum of wgt. {res}     10,078
+
+{txt}50%    {res}        0                      {txt}Mean          {res} .0067587
+                        {txt}Largest       Std. dev.     {res} .0281623
+{txt}75%    {res} .0016793       .5191069
+{txt}90%    {res} .0154181        .627357       {txt}Variance      {res} .0007931
+{txt}95%    {res} .0354054       .6565999       {txt}Skewness      {res} 11.41489
+{txt}99%    {res} .1136957       .8706004       {txt}Kurtosis      {res} 209.0141
+
+        {txt}Green patents/GDP (excl. transport and waste)
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}     10,081
+{txt}25%    {res}        0              0       {txt}Sum of wgt. {res}     10,081
+
+{txt}50%    {res}        0                      {txt}Mean          {res} .0048939
+                        {txt}Largest       Std. dev.     {res} .0210213
+{txt}75%    {res} .0006646       .3616828
+{txt}90%    {res} .0103944       .3656725       {txt}Variance      {res} .0004419
+{txt}95%    {res} .0260445       .4302693       {txt}Skewness      {res} 10.76816
+{txt}99%    {res} .0903069       .6508368       {txt}Kurtosis      {res} 186.7708
+
+        {txt}Green patents/GDP (energy intensive sectors)
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}     10,084
+{txt}25%    {res}        0              0       {txt}Sum of wgt. {res}     10,084
+
+{txt}50%    {res}        0                      {txt}Mean          {res} .0019834
+                        {txt}Largest       Std. dev.     {res}  .007088
+{txt}75%    {res} .0001122       .0940075
+{txt}90%    {res} .0052498        .094368       {txt}Variance      {res} .0000502
+{txt}95%    {res} .0127754        .134386       {txt}Skewness      {res} 7.746412
+{txt}99%    {res}  .034209       .1941017       {txt}Kurtosis      {res} 107.4049
+
+
+{txt}{stata `"shellout using `"C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.tex"'"':C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.tex}
+{browse `"C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables"' :dir}{com} : {txt}{stata `"seeout using "C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.txt", label"':seeout}
+
+{com}. 
+. 
+. filefilter "${c -(}tables{c )-}\\Table_TA2.tex" "${c -(}tables{c )-}\\Table_TA2_1.tex", from(" & (1) & (2) & (3) & (4) & (5) \BS\BS") to("") replace        
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_1.tex" "${c -(}tables{c )-}\\Table_TA2_2.tex", from(" &  &  &  &  &  \BS\BS") to("") replace     
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_2.tex" "${c -(}tables{c )-}\\Table_TA2_3.tex", from("\BSbegin{c -(}tabular{c )-}{c -(}lccccc{c )-} \BShline") to("") replace 
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_3.tex" "${c -(}tables{c )-}\\Table_TA2_4.tex", from(" &  &  &  &  &  \BS\BS \BShline") to("") replace
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_4.tex" "${c -(}tables{c )-}\\Table_TA2_5.tex", from("VARIABLES & mean & p50 & sd & min & max \BS\BS \BShline") to("") replace    
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_5.tex" "${c -(}tables{c )-}\\Table_TA2_6.tex", from("\BSend{c -(}tabular{c )-}") to("") replace    
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_6.tex" "${c -(}tables{c )-}\\Table_TA2_industry_UNIDO-fin.tex", from("CO2") to("CO\$_{c -(}2{c )-}\$") replace     
+{txt}
+{com}. 
+. cap erase "${c -(}tables{c )-}\Table_TA2.tex"
+{txt}
+{com}. forvalues i = 1(1)6 {c -(}
+{txt}  2{com}.                 cap erase "${c -(}tables{c )-}\\Table_TA2_`i'.tex"
+{txt}  3{com}.         {c )-}
+{txt}
+{com}. cap erase "${c -(}tables{c )-}\Table_TA2.txt"
+{txt}
+{com}. 
+. 
+. ** industry level (OECD)
+. 
+. use "$data\2_Interim files\country_sector_cleaned.dta", clear
+{txt}
+{com}. 
+. lab var cotwo_per_gdp "CO2 emissions/GDP"
+{txt}
+{com}. lab var va_g "Growth in value added"
+{txt}
+{com}. lab var cotwo_per_va "CO2 emissions per value added"
+{txt}
+{com}. lab var green_patents_adjusted_per_gdp "Green patents/GDP"
+{txt}
+{com}. lab var green_patents_adjusted_a_per_gdp "Green patents/GDP (excl. transport and waste)"
+{txt}
+{com}. lab var green_patents_adjusted_b_per_gdp "Green patents/GDP (energy intensive sectors)"
+{txt}
+{com}. lab var share "Sector share"
+{txt}
+{com}. 
+. keep if oecd==1
+{txt}(7,830 observations deleted)
+
+{com}. 
+. global industry_lev_oecd "cotwo_per_gdp va_g_oecd cotwo_per_va_oecd green_patents_adjusted_per_gdp green_patents_adjusted_a_per_gdp green_patents_adjusted_b_per_gdp va_oecd_share"
+{txt}
+{com}. 
+. tabstat $industry_lev_oecd, stat(mean p50 sd min  max) col(stats)
+
+{txt}{ralign 12:Variable} {...}
+{c |}      Mean       p50        SD       Min       Max
+{hline 13}{c +}{hline 50}
+{ralign 12:cotwo_per~dp} {...}
+{c |}{...}
+ {res} .0191271  .0036863  .0582625  8.74e-06  1.149855
+{txt}{ralign 12:va_g_oecd} {...}
+{c |}{...}
+ {res}  .011786  .0087311  .1586108        -1         1
+{txt}{ralign 12:cotwo_per_~d} {...}
+{c |}{...}
+ {res} 2.285533  .2653141  9.049604  .0000437  430.5358
+{txt}{ralign 12:gr~d_per_gdp} {...}
+{c |}{...}
+ {res} .0059939         0   .026975         0  .8706004
+{txt}{ralign 12:gr~a_per_gdp} {...}
+{c |}{...}
+ {res} .0043305         0  .0201002         0  .6508368
+{txt}{ralign 12:gr~b_per_gdp} {...}
+{c |}{...}
+ {res} .0017271         0   .006703         0  .1941017
+{txt}{ralign 12:va_oecd_sh~e} {...}
+{c |}{...}
+ {res} .0661883  .0439626  .0687841  .0001515  .6778012
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. 
+. keep $industry_lev_oecd
+{txt}
+{com}. outreg2 using "${c -(}tables{c )-}\\Table_TA2.tex", replace sum(detail) eqkeep(mean p50 sd min  max) tex(frag) label dec(3) sortvar($industry_lev_oecd)
+
+                      {txt}CO2 emissions/GDP
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .0000509       8.74e-06
+{txt} 5%    {res} .0001605       9.00e-06
+{txt}10%    {res} .0002892       9.09e-06       {txt}Obs         {res}     10,626
+{txt}25%    {res}  .000964       9.43e-06       {txt}Sum of wgt. {res}     10,626
+
+{txt}50%    {res} .0036863                      {txt}Mean          {res} .0191271
+                        {txt}Largest       Std. dev.     {res} .0582625
+{txt}75%    {res} .0104562        1.02429
+{txt}90%    {res} .0553373       1.057224       {txt}Variance      {res} .0033945
+{txt}95%    {res} .0941734       1.146047       {txt}Skewness      {res} 9.076597
+{txt}99%    {res} .2225688       1.149855       {txt}Kurtosis      {res} 120.7991
+
+              {txt}Value added growth, STAN 2000 USD
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}-.4116085             -1
+{txt} 5%    {res}-.2189763             -1
+{txt}10%    {res}-.1574163             -1       {txt}Obs         {res}     10,410
+{txt}25%    {res}-.0732142             -1       {txt}Sum of wgt. {res}     10,410
+
+{txt}50%    {res} .0087311                      {txt}Mean          {res}  .011786
+                        {txt}Largest       Std. dev.     {res} .1586108
+{txt}75%    {res} .0929667              1
+{txt}90%    {res} .1922166              1       {txt}Variance      {res} .0251574
+{txt}95%    {res} .2560268              1       {txt}Skewness      {res} .0739167
+{txt}99%    {res} .4413947              1       {txt}Kurtosis      {res} 8.520766
+
+       {txt}Value added divided by total value added, STAN
+                          2000 USD
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .0013584       .0001515
+{txt} 5%    {res} .0044639       .0001557
+{txt}10%    {res} .0075704       .0001561       {txt}Obs         {res}     10,671
+{txt}25%    {res} .0173709       .0001581       {txt}Sum of wgt. {res}     10,671
+
+{txt}50%    {res} .0439626                      {txt}Mean          {res} .0661883
+                        {txt}Largest       Std. dev.     {res} .0687841
+{txt}75%    {res} .0932832       .6715528
+{txt}90%    {res} .1555412       .6744431       {txt}Variance      {res} .0047312
+{txt}95%    {res}  .198556       .6769346       {txt}Skewness      {res}  2.46115
+{txt}99%    {res} .2984329       .6778012       {txt}Kurtosis      {res} 13.90304
+
+     {txt}Carbon emissions from combustion, divided by value
+                   added in USD 2000, STAN
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .0004209       .0000437
+{txt} 5%    {res}  .002727       .0000867
+{txt}10%    {res} .0090935       .0001015       {txt}Obs         {res}     10,033
+{txt}25%    {res} .0557035       .0001172       {txt}Sum of wgt. {res}     10,033
+
+{txt}50%    {res} .2653141                      {txt}Mean          {res} 2.285533
+                        {txt}Largest       Std. dev.     {res} 9.049604
+{txt}75%    {res} 1.289869       148.9486
+{txt}90%    {res}  6.22675       198.7393       {txt}Variance      {res} 81.89533
+{txt}95%    {res} 9.770766       324.9196       {txt}Skewness      {res} 20.60903
+{txt}99%    {res}  31.6789       430.5358       {txt}Kurtosis      {res} 731.8192
+
+                      {txt}Green patents/GDP
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}     11,086
+{txt}25%    {res}        0              0       {txt}Sum of wgt. {res}     11,086
+
+{txt}50%    {res}        0                      {txt}Mean          {res} .0059939
+                        {txt}Largest       Std. dev.     {res}  .026975
+{txt}75%    {res} .0006887       .5191069
+{txt}90%    {res} .0120772        .627357       {txt}Variance      {res} .0007276
+{txt}95%    {res} .0323676       .6565999       {txt}Skewness      {res}  11.9104
+{txt}99%    {res} .1106744       .8706004       {txt}Kurtosis      {res} 227.1583
+
+        {txt}Green patents/GDP (excl. transport and waste)
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}     11,089
+{txt}25%    {res}        0              0       {txt}Sum of wgt. {res}     11,089
+
+{txt}50%    {res}        0                      {txt}Mean          {res} .0043305
+                        {txt}Largest       Std. dev.     {res} .0201002
+{txt}75%    {res} .0002313       .3616828
+{txt}90%    {res} .0074255       .3656725       {txt}Variance      {res}  .000404
+{txt}95%    {res} .0236857       .4302693       {txt}Skewness      {res} 11.29153
+{txt}99%    {res} .0848442       .6508368       {txt}Kurtosis      {res} 204.4478
+
+        {txt}Green patents/GDP (energy intensive sectors)
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}     11,091
+{txt}25%    {res}        0              0       {txt}Sum of wgt. {res}     11,091
+
+{txt}50%    {res}        0                      {txt}Mean          {res} .0017271
+                        {txt}Largest       Std. dev.     {res}  .006703
+{txt}75%    {res}        0       .0940075
+{txt}90%    {res} .0038726        .094368       {txt}Variance      {res} .0000449
+{txt}95%    {res} .0110823        .134386       {txt}Skewness      {res} 8.225457
+{txt}99%    {res} .0319894       .1941017       {txt}Kurtosis      {res} 121.0872
+
+
+{txt}{stata `"shellout using `"C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.tex"'"':C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.tex}
+{browse `"C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables"' :dir}{com} : {txt}{stata `"seeout using "C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.txt", label"':seeout}
+
+{com}. 
+. 
+. filefilter "${c -(}tables{c )-}\\Table_TA2.tex" "${c -(}tables{c )-}\\Table_TA2_1.tex", from(" & (1) & (2) & (3) & (4) & (5) \BS\BS") to("") replace        
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_1.tex" "${c -(}tables{c )-}\\Table_TA2_2.tex", from(" &  &  &  &  &  \BS\BS") to("") replace     
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_2.tex" "${c -(}tables{c )-}\\Table_TA2_3.tex", from("\BSbegin{c -(}tabular{c )-}{c -(}lccccc{c )-} \BShline") to("") replace 
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_3.tex" "${c -(}tables{c )-}\\Table_TA2_4.tex", from(" &  &  &  &  &  \BS\BS \BShline") to("") replace    
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_4.tex" "${c -(}tables{c )-}\\Table_TA2_5.tex", from("VARIABLES & mean & p50 & sd & min & max \BS\BS \BShline") to("") replace    
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_5.tex" "${c -(}tables{c )-}\\Table_TA2_6.tex", from("\BSend{c -(}tabular{c )-}") to("") replace    
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_6.tex" "${c -(}tables{c )-}\\Table_TA2_industry_OECD-fin.tex", from("CO2") to("CO\$_{c -(}2{c )-}\$") replace      
+{txt}
+{com}. 
+. cap erase "${c -(}tables{c )-}\Table_TA2.tex"
+{txt}
+{com}. forvalues i = 1(1)6 {c -(}
+{txt}  2{com}.                 cap erase "${c -(}tables{c )-}\\Table_TA2_`i'.tex"
+{txt}  3{com}.         {c )-}
+{txt}
+{com}. cap erase "${c -(}tables{c )-}\Table_TA2.txt"
+{txt}
+{com}. 
+. 
+. ** firm level (Orbis)
+. 
+. use "$data\2_Interim files\orbis_cleaned.dta", clear
+{txt}
+{com}. 
+. keep if (country=="BE" | country=="NL" | country=="DE" | country=="LU" | country=="FR") & emissions_per_sales>=0 & emissions_per_assets>=0
+{txt}(55,564 observations deleted)
+
+{com}. 
+. lab var equity_share "Equity share"
+{txt}
+{com}. lab var emissions_per_sales "CO$_{c -(}2{c )-} emissions/sales, in thousands"
+{txt}
+{com}. lab var emissions_per_assets "CO$_{c -(}2{c )-} emissions/assets, in thousands"
+{txt}
+{com}. 
+. replace emissions_per_sales=emissions_per_sales/1000
+{txt}(9,275 real changes made)
+
+{com}. replace emissions_per_assets=emissions_per_assets/1000
+{txt}(10,450 real changes made)
+
+{com}. 
+. global orbis "emissions_per_sales emissions_per_assets equity_share"
+{txt}
+{com}. 
+. tabstat $orbis, stat(mean p50 sd min  max) col(stats)
+
+{txt}{ralign 12:Variable} {...}
+{c |}      Mean       p50        SD       Min       Max
+{hline 13}{c +}{hline 50}
+{ralign 12:emissions~es} {...}
+{c |}{...}
+ {res} .0795645   .000282  4.619167         0  385.4441
+{txt}{ralign 12:emissions~ts} {...}
+{c |}{...}
+ {res} .1111914  .0004048  5.696679         0   557.603
+{txt}{ralign 12:equity_share} {...}
+{c |}{...}
+ {res}  .410785    .38887  .2305034         0         1
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. 
+. keep $orbis
+{txt}
+{com}. outreg2 using "${c -(}tables{c )-}\\Table_TA2.tex", replace sum(detail) eqkeep(mean p50 sd min  max) tex(frag) label dec(3) sortvar($orbis)
+
+            {txt}CO{c -(}2{c )-} emissions/assets, in thousands
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res} 5.71e-06              0
+{txt}10%    {res} .0000231              0       {txt}Obs         {res}     10,561
+{txt}25%    {res} .0001018              0       {txt}Sum of wgt. {res}     10,561
+
+{txt}50%    {res} .0004048                      {txt}Mean          {res} .1111914
+                        {txt}Largest       Std. dev.     {res} 5.696679
+{txt}75%    {res} .0011602       51.02541
+{txt}90%    {res} .0034256        62.5115       {txt}Variance      {res} 32.45215
+{txt}95%    {res} .0066071       143.6016       {txt}Skewness      {res} 90.53073
+{txt}99%    {res} .3606503        557.603       {txt}Kurtosis      {res} 8726.987
+
+             {txt}CO{c -(}2{c )-} emissions/sales, in thousands
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} 4.76e-08              0
+{txt} 5%    {res} 5.34e-06              0
+{txt}10%    {res} .0000194              0       {txt}Obs         {res}      9,366
+{txt}25%    {res} .0000778              0       {txt}Sum of wgt. {res}      9,366
+
+{txt}50%    {res}  .000282                      {txt}Mean          {res} .0795645
+                        {txt}Largest       Std. dev.     {res} 4.619167
+{txt}75%    {res} .0008623       24.95678
+{txt}90%    {res} .0031901       33.33012       {txt}Variance      {res}  21.3367
+{txt}95%    {res} .0072248       221.6403       {txt}Skewness      {res}  73.8526
+{txt}99%    {res} .0261991       385.4441       {txt}Kurtosis      {res} 5738.998
+
+                        {txt}Equity share
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}   .00515              0
+{txt} 5%    {res}   .06106              0
+{txt}10%    {res}   .12116              0       {txt}Obs         {res}     15,953
+{txt}25%    {res}    .2351         .00005       {txt}Sum of wgt. {res}     15,953
+
+{txt}50%    {res}   .38887                      {txt}Mean          {res}  .410785
+                        {txt}Largest       Std. dev.     {res} .2305034
+{txt}75%    {res}    .5692              1
+{txt}90%    {res}    .7358              1       {txt}Variance      {res} .0531318
+{txt}95%    {res} .8329901              1       {txt}Skewness      {res} .3813385
+{txt}99%    {res}   .97222              1       {txt}Kurtosis      {res}  2.49093
+
+
+{txt}{stata `"shellout using `"C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.tex"'"':C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.tex}
+{browse `"C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables"' :dir}{com} : {txt}{stata `"seeout using "C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables\\Table_TA2.txt", label"':seeout}
+
+{com}. 
+. 
+. 
+. filefilter "${c -(}tables{c )-}\\Table_TA2.tex" "${c -(}tables{c )-}\\Table_TA2_1.tex", from(" & (1) & (2) & (3) & (4) & (5) \BS\BS") to("") replace        
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_1.tex" "${c -(}tables{c )-}\\Table_TA2_2.tex", from(" &  &  &  &  &  \BS\BS") to("") replace     
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_2.tex" "${c -(}tables{c )-}\\Table_TA2_3.tex", from("\BSbegin{c -(}tabular{c )-}{c -(}lccccc{c )-} \BShline") to("") replace 
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_3.tex" "${c -(}tables{c )-}\\Table_TA2_4.tex", from(" &  &  &  &  &  \BS\BS \BShline") to("") replace    
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_4.tex" "${c -(}tables{c )-}\\Table_TA2_5.tex", from("VARIABLES & mean & p50 & sd & min & max \BS\BS \BShline") to("") replace    
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_5.tex"  "${c -(}tables{c )-}\\Table_TA2_6.tex", from("\BSend{c -(}tabular{c )-}") to("") replace   
+{txt}
+{com}. filefilter "${c -(}tables{c )-}\\Table_TA2_6.tex" "${c -(}tables{c )-}\\Table_TA2_orbis-fin.tex", from("CO{c -(}2{c )-}") to("CO\$_{c -(}2{c )-}\$") replace    
+{txt}
+{com}. 
+. cap erase "${c -(}tables{c )-}\Table_TA2.tex"
+{txt}
+{com}. forvalues i = 1(1)6 {c -(}
+{txt}  2{com}.                 cap erase "${c -(}tables{c )-}\\Table_TA2_`i'.tex"
+{txt}  3{com}.         {c )-}
+{txt}
+{com}. cap erase "${c -(}tables{c )-}\Table_TA2.txt"
+{txt}
+{com}. 
+. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\4_logs\4 Tables Appendix.txt
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 2 Nov 2026, 21:24:00
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

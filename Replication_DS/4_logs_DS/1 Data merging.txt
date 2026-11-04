@@ -1,0 +1,1612 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\4_logs_DS\1 Data merging.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 4 Nov 2026, 07:41:14
+{txt}
+{com}.         
+. *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     
+. * COUNTRY*SECTOR DATA CLEANING: Merge datasets
+. *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+. 
+. 
+. *1:1 matching based on country*year*industry identifier
+. 
+. use "$data\1_Raw files_DS\iea.dta", clear
+{txt}
+{com}. 
+. local dataset_list1 `" "exio.dta" "' 
+{txt}
+{com}. 
+. foreach  filename of local dataset_list1 {c -(}
+{txt}  2{com}. local temp_path1 = "$data\1_Raw files_DS" + "\" + "`filename'" 
+{txt}  3{com}.         merge 1:1 iso2 industry year using "`temp_path1'"
+{txt}  4{com}.         drop _merge
+{txt}  5{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}          18,291{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. local dataset_list2 `" "wiod.dta" "unido.dta" "stan.dta" "'
+{txt}
+{com}. 
+. foreach filename of local dataset_list2 {c -(}
+{txt}  2{com}. local temp_path2 = "$data\1_Raw files_DS" + "\" + "`filename'" 
+{txt}  3{com}.         merge 1:1 code industry year using "`temp_path2'"
+{txt}  4{com}.         drop _merge
+{txt}  5{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}          18,291{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           9,506
+{txt}{col 9}from master{col 30}{res}           8,669{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             837{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           9,622{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           6,798
+{txt}{col 9}from master{col 30}{res}           6,477{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             321{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          12,651{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. local dataset_list3 `"  "patstat.dta" "'
+{txt}
+{com}. 
+. foreach filename of local dataset_list3 {c -(}
+{txt}  2{com}. local temp_path3 = "$data\1_Raw files_DS\" + "\" + "`filename'" 
+{txt}  3{com}.         merge 1:1 code industry year using "`temp_path3'"
+{txt}  4{com}.         drop _merge
+{txt}  5{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           1,158
+{txt}{col 9}from master{col 30}{res}           1,158{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          18,291{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. 
+. *m:1 matching based on country*year identifier
+. 
+. local dataset_list4 `" "wdi.dta" "financial structure.dta" "business credit.dta" "ets.dta" "quinn.dta" "bekaert.dta" "iea policies.dta"   "'
+{txt}
+{com}. 
+. foreach filename of local dataset_list4 {c -(}
+{txt}  2{com}. local temp_path4 = "$data\1_Raw files_DS" + "\" + "`filename'" 
+{txt}  3{com}.         merge m:1 code year using "`temp_path4'"
+{txt}  4{com}.         drop _merge
+{txt}  5{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}          19,449{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              50
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}              50{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,449{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              50
+{txt}{col 9}from master{col 30}{res}              50{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,449{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              48
+{txt}{col 9}from master{col 30}{res}              48{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,451{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              48
+{txt}{col 9}from master{col 30}{res}              48{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,451{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              48
+{txt}{col 9}from master{col 30}{res}              48{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,451{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             614
+{txt}{col 9}from master{col 30}{res}             426{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             188{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,073{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. local dataset_list5 `" "evca.dta" "abiad.dta" "'
+{txt}
+{com}. 
+. foreach filename of local dataset_list5 {c -(}
+{txt}  2{com}. local temp_path5 = "$data\1_Raw files_DS" + "\" + "`filename'" 
+{txt}  3{com}.         merge m:1 country year using "`temp_path5'"
+{txt}  4{com}.         drop _merge
+{txt}  5{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             244
+{txt}{col 9}from master{col 30}{res}             243{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               1{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,444{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             243
+{txt}{col 9}from master{col 30}{res}             243{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,445{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. *m:1 matching based on country*industry identifier
+. 
+. local dataset_list6 `" "fuel subsidies.dta" "'
+{txt}
+{com}. 
+. foreach filename of local dataset_list6 {c -(}
+{txt}  2{com}. local temp_path6 = "$data\1_Raw files_DS" + "\" + "`filename'" 
+{txt}  3{com}.         merge m:1 code industry using "`temp_path6'"
+{txt}  4{com}.         drop _merge
+{txt}  5{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             381
+{txt}{col 9}from master{col 30}{res}             381{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,307{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. *m:1 matching based on industry identifier
+. 
+. local dataset_list7 `" "levinson.dta" "epa.dta" "compustat.dta" "laeven.dta" "braun.dta" "'
+{txt}
+{com}. 
+. foreach filename of local dataset_list7 {c -(}
+{txt}  2{com}. local temp_path7 = "$data\1_Raw files_DS" + "\" + "`filename'" 
+{txt}  3{com}.         merge m:1 industry using "`temp_path7'"
+{txt}  4{com}.         drop _merge
+{txt}  5{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             260
+{txt}{col 9}from master{col 30}{res}             260{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,428{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             260
+{txt}{col 9}from master{col 30}{res}             260{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,428{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             260
+{txt}{col 9}from master{col 30}{res}             260{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,428{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             260
+{txt}{col 9}from master{col 30}{res}             260{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,428{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             260
+{txt}{col 9}from master{col 30}{res}             260{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}          19,428{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. drop if industry==.
+{txt}(260 observations deleted)
+
+{com}. drop if country=="Russian Federation"
+{txt}(6 observations deleted)
+
+{com}. 
+. save "$data\2_Interim files_DS\country_sector_cleaned.dta", replace
+{txt}{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\0_data_DS\2_Interim files_DS\country_sector_cleaned.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     
+. * COUNTRY DATA CLEANING: Merge datasets    -> not for Table 3
+. *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+. 
+. 
+. use "$data\1_Raw files_DS\iea country.dta", clear
+{txt}
+{com}. 
+. *1:1 matching based on country*year identifier
+. 
+. local dataset_list3 `" "wdi.dta" "financial structure.dta" "business credit.dta" "ets.dta" "quinn.dta" "bekaert.dta" "iea policies.dta" "'
+{txt}
+{com}. 
+. foreach filename of local dataset_list3 {c -(}
+{txt}  2{com}. local temp_path3 = "$data\1_Raw files_DS" + "\" + "`filename'" 
+{txt}  3{com}.         merge m:1 code year using "`temp_path3'"
+{txt}  4{com}.         drop _merge
+{txt}  5{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}           1,246{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}{txt}{p 0 7 2}
+(variable
+{bf:country} was {bf:str28}, now {bf:str52} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:code} was {bf:str3}, now {bf:str12} to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              50
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}              50{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,246{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              50
+{txt}{col 9}from master{col 30}{res}              50{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,246{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              48
+{txt}{col 9}from master{col 30}{res}              48{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,248{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              48
+{txt}{col 9}from master{col 30}{res}              48{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,248{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              48
+{txt}{col 9}from master{col 30}{res}              48{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,248{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}{txt}{p 0 7 2}
+(variable
+{bf:year} was {bf:int}, now {bf:float} to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             262
+{txt}{col 9}from master{col 30}{res}              74{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             188{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,222{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. local dataset_list4 `" "evca.dta" "abiad.dta" "'
+{txt}
+{com}. 
+. foreach filename of local dataset_list4 {c -(}
+{txt}  2{com}. local temp_path4 = "$data\1_Raw files_DS" + "\" + "`filename'" 
+{txt}  3{com}.         merge m:1 country year using "`temp_path4'"
+{txt}  4{com}.         drop _merge
+{txt}  5{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             238
+{txt}{col 9}from master{col 30}{res}             237{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               1{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,247{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             237
+{txt}{col 9}from master{col 30}{res}             237{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,248{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. replace country="Macedonia, FYR" if country=="North Macedonia"
+{txt}(1 real change made)
+
+{com}. drop if country=="Russian Federation"
+{txt}(1 observation deleted)
+
+{com}. 
+. replace country = "China" if country=="China (People's Republic of)"
+{txt}(30 real changes made)
+
+{com}. 
+. save "$data\2_Interim files_DS\country_cleaned.dta", replace
+{txt}{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\0_data_DS\2_Interim files_DS\country_cleaned.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     
+. * COUNTRY*SECTOR DATA CLEANING: Create variables, re-label
+. *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+. 
+. use "$data\2_Interim files_DS\country_sector_cleaned.dta", clear
+{txt}
+{com}. 
+. *main financial variables
+. 
+. *producing compound variables
+. 
+. gen fin_dev1=credit+stock
+{txt}(2,394 missing values generated)
+
+{com}. gen fin_str2=stock/fin_dev1
+{txt}(2,394 missing values generated)
+
+{com}. gen fin_dev1_b=credit+stock+prbond
+{txt}(7,587 missing values generated)
+
+{com}. gen fin_str2_c=stock/(credit+stock+prbond)
+{txt}(7,587 missing values generated)
+
+{com}. 
+. *producing lags of variables
+. 
+. egen panel_var = group(country industry)
+{txt}
+{com}. sort code year industry
+{txt}
+{com}. xtset panel_var year
+{res}
+{col 1}{txt:Panel variable: }{res:panel_var}{txt: (unbalanced)}
+{p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:1990}}{txt: to }{res:{bind:2015}}{txt:, but with gaps}{p_end}
+{txt}{col 10}Delta: {res}1 unit
+{txt}
+{com}. 
+. gen credit_l1=L1.credit
+{txt}(1,498 missing values generated)
+
+{com}. gen stock_l1=L1.stock
+{txt}(2,621 missing values generated)
+
+{com}. gen bonds_l1=L1.prbond
+{txt}(7,397 missing values generated)
+
+{com}. gen fin_dev1_l1=L1.fin_dev1
+{txt}(2,924 missing values generated)
+
+{com}. gen fin_str2_l1=L1.fin_str2
+{txt}(2,924 missing values generated)
+
+{com}. gen fin_dev1_b_l1=L1.fin_dev1_b
+{txt}(7,844 missing values generated)
+
+{com}. gen fin_str2_c_l1=L1.fin_str2_c
+{txt}(7,844 missing values generated)
+
+{com}. gen dom_st_lawpol_l1=L1.dom_st_lawpol
+{txt}(1,130 missing values generated)
+
+{com}.          
+. *produce labels
+. label var credit "Credit to the private sector/GDP"
+{txt}
+{com}. label var stock "Stock market capitalization/GDP"
+{txt}
+{com}. label var prbond "Value of private bonds/GDP"
+{txt}
+{com}. label var fin_dev1 "(Credit to the private + stock market capitalization)/GDP"
+{txt}
+{com}. label var fin_str2 "Stock market capit./(credit to the private sector+stock market capit.)"
+{txt}
+{com}. label var fin_dev1_b "(Credit to the private sector+stock market capit.+value of private bonds)/GDP"
+{txt}
+{com}. label var fin_str2_c "Stock market capit./(credit to the private+stock market capit.+private bonds)"
+{txt}
+{com}. 
+. label var credit_l1 "Credit to the private sector/GDP, 1 lag"
+{txt}
+{com}. label var stock_l1 "Stock market capitalization/GDP, 1 lag"
+{txt}
+{com}. label var bonds_l1 "Value of private bonds/GDP, 1 lag"
+{txt}
+{com}. label var fin_dev1_l1 "(Credit to the private + stock market capitalization)/GDP, 1 lag"
+{txt}
+{com}. label var fin_str2_l1 "Stock market capit./(credit to the private sector+stock market capit.), 1 lag"
+{txt}
+{com}. label var fin_dev1_b_l1 "(Credit to the private sector+stock market capit.+private bonds)/GDP, 1 lag"
+{txt}
+{com}. label var fin_str2_c_l1 "Stock market capit./(private credit+stock market capit.+private bonds), 1 lag"
+{txt}
+{com}. 
+. label var dom_st_lawpol_l1 "Total number of laws & policies passed in a country until time t-1, 1 lag"
+{txt}
+{com}. 
+. ** for Table OA9  --> not for Table3
+. 
+. gen fin_dev1_e_l1 = credit_l1+stock_l1+priveq_l1
+{txt}(11,439 missing values generated)
+
+{com}. gen fin_str2_e_l1 = (stock_l1+priveq_l1)/(credit_l1+stock_l1+priveq_l1)
+{txt}(11,439 missing values generated)
+
+{com}. 
+. 
+. ** for Table OA12  --> not for Table3
+. 
+. gen fin_dev1_a = credit_bus+stock
+{txt}(4,915 missing values generated)
+
+{com}. gen fin_str2_a = (stock)/(stock+credit_bus)
+{txt}(4,915 missing values generated)
+
+{com}. sort country industry year
+{txt}
+{com}. gen fin_dev1_a_l1=fin_dev1_a[_n-1] if industry[_n]==industry[_n-1]
+{txt}(5,342 missing values generated)
+
+{com}. gen fin_str2_a_l1=fin_str2_a[_n-1] if industry[_n]==industry[_n-1]
+{txt}(5,342 missing values generated)
+
+{com}. 
+. forval x=1990(1)2015 {c -(}
+{txt}  2{com}. gen year_`x'=0
+{txt}  3{com}. replace year_`x'=1 if `x'==year
+{txt}  4{com}. {c )-}
+{txt}(734 real changes made)
+(730 real changes made)
+(749 real changes made)
+(751 real changes made)
+(751 real changes made)
+(755 real changes made)
+(756 real changes made)
+(756 real changes made)
+(757 real changes made)
+(757 real changes made)
+(757 real changes made)
+(759 real changes made)
+(759 real changes made)
+(757 real changes made)
+(759 real changes made)
+(759 real changes made)
+(759 real changes made)
+(759 real changes made)
+(759 real changes made)
+(759 real changes made)
+(757 real changes made)
+(757 real changes made)
+(757 real changes made)
+(757 real changes made)
+(656 real changes made)
+(656 real changes made)
+
+{com}. 
+. egen ci = group (country industry)
+{txt}
+{com}. egen ct = group (country year)
+{txt}
+{com}. egen it = group (industry year)
+{txt}
+{com}. 
+. 
+. **Need to create interaction variables by hand as xtabond function in Stata doesn't work with x1#x2 syntax for interactions.
+. ** for all analysis
+. 
+. *identifying industry C02 benchmarks
+. 
+. tostring industry, gen(industry_cat)
+{txt}industry_cat generated as {res:str4}
+
+{com}. encode industry_cat, gen(industry_cat2)
+{txt}
+{com}. 
+. drop cotwo_intensity_wd
+{txt}
+{com}. 
+. bysort industry : egen cotwo_intensity_wd = mean(cotwo_per_va)
+{txt}(8,253 missing values generated)
+
+{com}. bysort industry : egen cotwo_intensity_wd_oecd = mean(cotwo_per_va_oecd)
+{txt}
+{com}. gen cotwo_intensity_wd_all=cotwo_intensity_wd 
+{txt}(8,253 missing values generated)
+
+{com}. replace cotwo_intensity_wd_all=cotwo_intensity_wd_oecd if missing(cotwo_intensity_wd_all)
+{txt}(8,253 real changes made)
+
+{com}. 
+. gen cotwo_fin_dev1_l1 = cotwo_intensity_wd * fin_dev1_l1
+{txt}(9,954 missing values generated)
+
+{com}. gen cotwo_fin_str2_l1 = cotwo_intensity_wd * fin_str2_l1
+{txt}(9,954 missing values generated)
+
+{com}. 
+. 
+. label var cotwo_fin_dev1_l1 "Financial development cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. label var cotwo_fin_str2_l1 "Equity share cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. 
+. ** for Table 4  --> not for Table3
+. 
+. gen cotwo_entry_l2 = cotwo_intensity_wd * entrybarriers_l2 
+{txt}(9,847 missing values generated)
+
+{com}. gen cotwo_treated_stock_l2 = cotwo_intensity_wd * treated_stock_l2
+{txt}(8,389 missing values generated)
+
+{com}. gen cotwo_cur100_l2 = cotwo_intensity_wd * cur100_l2
+{txt}(9,577 missing values generated)
+
+{com}. 
+. 
+. ** for Table 7  --> not for Table3
+. 
+. gen rd_fin_dev1_l1 = rd * fin_dev1_l1
+{txt}(2,924 missing values generated)
+
+{com}. gen rd_fin_str2_l1 = rd * fin_str2_l1
+{txt}(2,924 missing values generated)
+
+{com}. gen tang_fin_dev1_l1 = tang_2 * fin_dev1_l1
+{txt}(2,924 missing values generated)
+
+{com}. gen tang_fin_str2_l1 = tang_2 * fin_str2_l1
+{txt}(2,924 missing values generated)
+
+{com}. gen litig_fin_dev1_l1 = sued_share * fin_dev1_l1
+{txt}(2,924 missing values generated)
+
+{com}. gen litig_fin_str2_l1 = sued_share * fin_str2_l1
+{txt}(2,924 missing values generated)
+
+{com}. 
+. label var rd_fin_dev1_l1 "Financial development cross R&D intensity"
+{txt}
+{com}. label var rd_fin_str2_l1 "Equity share cross R&D intensity"
+{txt}
+{com}. label var tang_fin_dev1_l1 "Financial development cross Asset tangibility"
+{txt}
+{com}. label var tang_fin_str2_l1 "Equity share cross Asset tangibility"
+{txt}
+{com}. label var litig_fin_dev1_l1 "Financial development cross Litigation risk"
+{txt}
+{com}. label var litig_fin_str2_l1 "Equity share cross Litigation risk"
+{txt}
+{com}. 
+. ** for Table OA3  --> not for Table3
+. 
+. gen cotwo_high_fin_dev1_l1=cotwo_intensity_high*fin_dev1_l1
+{txt}(3,847 missing values generated)
+
+{com}. gen cotwo_high_fin_str2_l1=cotwo_intensity_high*fin_str2_l1
+{txt}(3,847 missing values generated)
+
+{com}. 
+. label var cotwo_high_fin_dev1_l1 "Financial development cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. label var cotwo_high_fin_str2_l1 "Equity share cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. 
+. ** for Table OA5  --> not for Table3
+. 
+. gen cotwo_credit_l1 = cotwo_intensity_wd * credit_l1
+{txt}(9,106 missing values generated)
+
+{com}. gen cotwo_stock_l1 = cotwo_intensity_wd * stock_l1
+{txt}(9,783 missing values generated)
+
+{com}. 
+. label var cotwo_credit_l1 "Credit/GDP cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. label var cotwo_stock_l1 "Stocks/GDP cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. 
+. ** for Table OA6  --> not for Table3
+. 
+. gen ext_dep_fin_dev1_l1 = ext_dep * fin_dev1_l1
+{txt}(2,924 missing values generated)
+
+{com}. gen ext_dep_fin_str2_l1 = ext_dep * fin_str2_l1
+{txt}(2,924 missing values generated)
+
+{com}. 
+. label var ext_dep_fin_dev1_l1 "Financial development cross External dependence"
+{txt}
+{com}. label var ext_dep_fin_str2_l1 "Equity share cross External dependence"
+{txt}
+{com}. 
+. ** for Table OA7  --> not for Table3
+. 
+. local industry_cat_levels = r(levels)
+{txt}
+{com}. drop cotwo_intensity_wd_c
+{txt}
+{com}. 
+. bysort industry year: egen cotwo_intensity_wd_c = mean(cotwo_per_va)
+{txt}(8,253 missing values generated)
+
+{com}. 
+. gen cotwo_c_fin_dev1_l1 = cotwo_intensity_wd_c * fin_dev1_l1
+{txt}(9,954 missing values generated)
+
+{com}. gen cotwo_c_fin_str2_l1 = cotwo_intensity_wd_c * fin_str2_l1
+{txt}(9,954 missing values generated)
+
+{com}. 
+. drop cotwo_intensity_alt
+{txt}
+{com}. bysort industry year: egen x = mean(cotwo_per_va) if country!="United States"
+{txt}(8,487 missing values generated)
+
+{com}. bysort industry: egen cotwo_intensity_alt=mean(x)
+{txt}(8,253 missing values generated)
+
+{com}. drop x 
+{txt}
+{com}. 
+. 
+. gen cotwo_alt_fin_dev1_l1 = cotwo_intensity_alt * fin_dev1_l1
+{txt}(9,954 missing values generated)
+
+{com}. gen cotwo_alt_fin_str2_l1 = cotwo_intensity_alt * fin_str2_l1
+{txt}(9,954 missing values generated)
+
+{com}. 
+. label var cotwo_c_fin_dev1_l1 "Financial development cross CO$_{c -(}2{c )-} intensity (Contemporaneous)"
+{txt}
+{com}. label var cotwo_c_fin_str2_l1 "Equity share cross CO$_{c -(}2{c )-} intensity (Contemporaneous)"
+{txt}
+{com}. 
+. label var cotwo_alt_fin_str2_l1 "Financial development cross CO$_{c -(}2{c )-} intensity (US)"
+{txt}
+{com}. label var cotwo_c_fin_str2_l1 "Equity share cross CO$_{c -(}2{c )-} intensity (US)"
+{txt}
+{com}. 
+. ** for Table OA8  --> not for Table3
+. 
+. gen cotwo_fin_dev1_b_l1 = cotwo_intensity_wd * fin_dev1_b_l1
+{txt}(12,795 missing values generated)
+
+{com}. gen cotwo_fin_str2_c_l1 = cotwo_intensity_wd * fin_str2_c_l1
+{txt}(12,795 missing values generated)
+
+{com}. 
+. label var cotwo_fin_dev1_b_l1 "Financial development with bonds cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. label var cotwo_fin_str2_c_l1 "Equity share with bonds cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. 
+. ** for Table OA9  --> not for Table3
+. 
+. *gen fin_dev1_e_l1 = credit_l1+stock_l1+priveq_l1
+. *gen fin_str2_e_l1 = (stock_l1+priveq_l1)/(credit_l1+stock_l1+priveq_l1)
+. 
+. gen cotwo_fin_dev1_e_l1 = cotwo_intensity_wd * fin_dev1_e_l1
+{txt}(14,913 missing values generated)
+
+{com}. gen cotwo_fin_str2_e_l1 = cotwo_intensity_wd * fin_str2_e_l1
+{txt}(14,913 missing values generated)
+
+{com}. 
+. label var cotwo_fin_dev1_e_l1 "Financial development cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. label var cotwo_fin_str2_e_l1 "Equity share cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. 
+. ** for Table OA10  --> not for Table3
+. 
+. gen fin_dev1_subsidy_l1 = subsidy_fuel_post * fin_dev1_l1
+{txt}(10,939 missing values generated)
+
+{com}. gen fin_str2_subsidy_l1 = subsidy_fuel_post * fin_str2_l1
+{txt}(10,939 missing values generated)
+
+{com}. 
+. label var fin_dev1_subsidy_l1 "Financial development cross Fuel subsidies"
+{txt}
+{com}. label var fin_str2_subsidy_l1 "Equity share cross Fuel subsidies"
+{txt}
+{com}. 
+. ** for Table OA11  --> not for Table3
+. 
+. gen cotwo_environmental_laws_l1 = cotwo_intensity_wd * dom_st_lawpol_l1
+{txt}(8,918 missing values generated)
+
+{com}. gen cotwo_carbon_tax_ets_l1 = cotwo_intensity_wd * carbon_tax_ets_l1
+{txt}(8,681 missing values generated)
+
+{com}. 
+. label var cotwo_environmental_laws_l1 "# environmental laws and policies cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. label var cotwo_carbon_tax_ets_l1 "Carbon tax or ETS cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. 
+. ** for Table OA12  --> not for Table3
+. 
+. gen cotwo_fin_dev1a_l1 = cotwo_intensity_wd * fin_dev1_a_l1
+{txt}(11,347 missing values generated)
+
+{com}. gen cotwo_fin_str2a_l1 = cotwo_intensity_wd * fin_str2_a_l1
+{txt}(11,347 missing values generated)
+
+{com}. 
+. label var cotwo_fin_dev1a_l1 "Financial development cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. label var cotwo_fin_str2a_l1 "Equity share cross CO$_{c -(}2{c )-} intensity"
+{txt}
+{com}. 
+. save "$data\2_Interim files_DS\country_sector_cleaned.dta", replace
+{txt}{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\0_data_DS\2_Interim files_DS\country_sector_cleaned.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. 
+. *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     
+. * COUNTRY DATA CLEANING: Create variables, re-label    --> not for Table3
+. *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+. 
+. use "$data\2_Interim files_DS\country_cleaned.dta", clear
+{txt}
+{com}. 
+. forval x=1990(1)2015 {c -(}
+{txt}  2{com}. gen year_`x'=0
+{txt}  3{com}. replace year_`x'=1 if `x'==year
+{txt}  4{com}. {c )-}
+{txt}(49 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+(48 real changes made)
+
+{com}. 
+. drop if missing(country) & code=="EST"
+{txt}(1 observation deleted)
+
+{com}. 
+. 
+. *main financial variables
+. 
+. *producing compound variables
+. 
+. gen fin_dev1=credit+stock
+{txt}(366 missing values generated)
+
+{com}. gen fin_str2=stock/fin_dev1
+{txt}(366 missing values generated)
+
+{com}. gen fin_dev1_b=credit+stock+prbond
+{txt}(726 missing values generated)
+
+{com}. gen fin_str2_c=stock/(credit+stock+prbond)
+{txt}(726 missing values generated)
+
+{com}. 
+. *producing lags of variables
+. 
+. encode country,gen(country1)
+{txt}
+{com}. sort code year
+{txt}
+{com}. xtset country1 year
+{res}
+{col 1}{txt:Panel variable: }{res:country1}{txt: (unbalanced)}
+{p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:1989}}{txt: to }{res:{bind:2019}}{p_end}
+{txt}{col 10}Delta: {res}1 unit
+{txt}
+{com}. 
+. gen credit_l1=L1.credit
+{txt}(250 missing values generated)
+
+{com}. gen stock_l1=L1.stock
+{txt}(346 missing values generated)
+
+{com}. gen bonds_l1=L1.prbond
+{txt}(694 missing values generated)
+
+{com}. gen fin_dev1_l1=L1.fin_dev1
+{txt}(366 missing values generated)
+
+{com}. gen fin_str2_l1=L1.fin_str2
+{txt}(366 missing values generated)
+
+{com}. gen fin_dev1_b_l1=L1.fin_dev1_b
+{txt}(726 missing values generated)
+
+{com}. gen fin_str2_c_l1=L1.fin_str2_c
+{txt}(726 missing values generated)
+
+{com}. gen dom_st_lawpol_l1=L1.dom_st_lawpol
+{txt}(120 missing values generated)
+
+{com}.          
+. *produce labels
+. label var credit "Credit to the private sector/GDP"
+{txt}
+{com}. label var stock "Stock market capitalization/GDP, 1 lag"
+{txt}
+{com}. label var prbond "Value of private bonds/GDP"
+{txt}
+{com}. label var fin_dev1 "(Credit to the private + stock market capitalization)/GDP"
+{txt}
+{com}. label var fin_str2 "Stock market capit./(credit to the private sector+stock market capit.)"
+{txt}
+{com}. label var fin_dev1_b "(Credit to the private sector+stock market capit.+value of private bonds)/GDP"
+{txt}
+{com}. label var fin_str2_c "Stock market capit./(credit to the private+stock market capit.+private bonds)"
+{txt}
+{com}. 
+. label var credit_l1 "Credit to the private sector/GDP, 1 lag"
+{txt}
+{com}. label var stock_l1 "Stock market capitalization/GDP, 1 lag"
+{txt}
+{com}. label var bonds_l1 "Value of private bonds/GDP, 1 lag"
+{txt}
+{com}. label var fin_dev1_l1 "(Credit to the private + stock market capitalization)/GDP, 1 lag"
+{txt}
+{com}. label var fin_str2_l1 "Stock market capit./(credit to the private sector+stock market capit.), 1 lag"
+{txt}
+{com}. label var fin_dev1_b_l1 "(Credit to the private sector+stock market capit.+private bonds)/GDP, 1 lag"
+{txt}
+{com}. label var fin_str2_c_l1 "Stock market capit./(private credit+stock market capit.+private bonds), 1 lag"
+{txt}
+{com}. label var dom_st_lawpol_l1 "Total number of laws & policies passed in a country until time t-1, 1 lag"
+{txt}
+{com}. 
+. 
+. save "$data\2_Interim files_DS\country_cleaned.dta", replace
+{txt}{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\0_data_DS\2_Interim files_DS\country_cleaned.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. 
+. *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     
+. * ORBIS FIRM-LEVEL DATA CLEANING: Merge datasets    --> not for Table3
+. *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+. 
+. 
+. use "$data\1_Raw files_DS\orbis_anon.dta", clear
+{txt}
+{com}. 
+. gen x=nace/100
+{txt}(42,442 missing values generated)
+
+{com}. gen temp=floor(x)
+{txt}(42,442 missing values generated)
+
+{com}. 
+. bysort firmid: egen industry=mean(temp)
+{txt}(755 missing values generated)
+
+{com}. 
+. rename VERIFIED_EMISSIONS_ emissions
+{res}{txt}
+{com}. 
+. gen emissions_per_assets=emissions/toas
+{txt}(37,565 missing values generated)
+
+{com}. gen emissions_per_sales=emissions/turn
+{txt}(43,282 missing values generated)
+
+{com}. 
+. bysort industry: egen cotwo_ass=mean(emissions_per_assets)
+{txt}(28 missing values generated)
+
+{com}. bysort industry: egen cotwo_sal=mean(emissions_per_sales)
+{txt}(161 missing values generated)
+
+{com}. 
+. gen post_2006=0
+{txt}
+{com}. replace post_2006=1 if year>2006
+{txt}(48,722 real changes made)
+
+{com}. 
+. gen post_2009=0
+{txt}
+{com}. replace post_2009=1 if year>2009
+{txt}(36,611 real changes made)
+
+{com}. 
+. gen post_2010=0
+{txt}
+{com}. replace post_2010=1 if year>2010
+{txt}(32,538 real changes made)
+
+{com}. 
+. gen post_2011=0
+{txt}
+{com}. replace post_2011=1 if year>2011
+{txt}(28,465 real changes made)
+
+{com}. 
+. gen post_2006_cotwo_ass=post_2006*cotwo_ass
+{txt}(28 missing values generated)
+
+{com}. gen post_2006_cotwo_sal=post_2006*cotwo_sal
+{txt}(161 missing values generated)
+
+{com}. 
+. gen post_2009_cotwo_ass=post_2009*cotwo_ass
+{txt}(28 missing values generated)
+
+{com}. gen post_2009_cotwo_sal=post_2009*cotwo_sal
+{txt}(161 missing values generated)
+
+{com}. 
+. gen post_2010_cotwo_ass=post_2010*cotwo_ass
+{txt}(28 missing values generated)
+
+{com}. gen post_2010_cotwo_sal=post_2010*cotwo_sal
+{txt}(161 missing values generated)
+
+{com}. 
+. gen post_2011_cotwo_ass=post_2011*cotwo_ass
+{txt}(28 missing values generated)
+
+{com}. gen post_2011_cotwo_sal=post_2011*cotwo_sal
+{txt}(161 missing values generated)
+
+{com}. 
+. gen log_equity=log(tshf)
+{txt}(17,155 missing values generated)
+
+{com}. 
+. replace solr=. if solr<0
+{txt}(2,070 real changes made, 2,070 to missing)
+
+{com}. gen equity_share=solr/100
+{txt}(19,633 missing values generated)
+
+{com}. 
+. replace emissions_per_assets=emissions_per_assets
+{txt}(0 real changes made)
+
+{com}. replace emissions_per_sales=emissions_per_sales
+{txt}(0 real changes made)
+
+{com}. 
+. gen log_emissions_per_assets=log(emissions_per_assets)
+{txt}(43,490 missing values generated)
+
+{com}. gen log_emissions_per_sales=log(emissions_per_sales)
+{txt}(48,184 missing values generated)
+
+{com}. 
+. gen be=0 if country=="NL" | country=="DE" | country=="LU" | country=="FR"
+{txt}(57,969 missing values generated)
+
+{com}. replace be=1 if country=="BE"
+{txt}(3,612 real changes made)
+
+{com}. 
+. gen post_2006_be=post_2006*be
+{txt}(54,357 missing values generated)
+
+{com}. gen post_2006_cotwo_ass_be=post_2006_cotwo_ass*be
+{txt}(54,357 missing values generated)
+
+{com}. gen post_2006_cotwo_sal_be=post_2006_cotwo_sal*be
+{txt}(54,381 missing values generated)
+
+{com}. 
+. egen country_year=group(country year)
+{txt}
+{com}. 
+. ** Summary
+. codebook equity_share emissions_per_sales emissions_per_assets if (country=="BE" | country=="NL" | country=="DE" | country=="LU" | country=="FR") & emissions_per_sales>=0 & emissions_per_assets>=0
+
+{txt}{hline}
+{res}equity_share{right:(unlabeled)}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}float{txt})
+
+{col 18}Range: [{res}0{txt},{res}1{txt}]{col 55}Units: {res}1.000e-12
+{col 10}{txt}Unique values: {res}12,873{col 51}{txt}Missing .: {res}7,168{txt}/{res}23,121
+
+{txt}{col 19}Mean: {res}{ralign 7:.410785}
+{txt}{col 14}Std. dev.: {res}{ralign 7:.230503}
+
+{txt}{col 12}Percentiles: {col 25}{ralign 7:10%}{ralign 10:25%}{ralign 10:50%}{ralign 10:75%}{ralign 10:90%}
+{res}{col 25}{ralign 7:.12116}{ralign 10:   .2351}{ralign 10:  .38887}{ralign 10:   .5692}{ralign 10:   .7358}
+
+{txt}{hline}
+{res}emissions_per_sales{right:(unlabeled)}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}float{txt})
+
+{col 18}Range: [{res}0{txt},{res}385444.09{txt}]{col 55}Units: {res}1.000e-12
+{col 10}{txt}Unique values: {res}9,276{col 51}{txt}Missing .: {res}13,755{txt}/{res}23,121
+
+{txt}{col 19}Mean: {res}{ralign 7:79.5645}
+{txt}{col 14}Std. dev.: {res}{ralign 7:4619.17}
+
+{txt}{col 12}Percentiles: {col 25}{ralign 7:10%}{ralign 10:25%}{ralign 10:50%}{ralign 10:75%}{ralign 10:90%}
+{res}{col 25}{ralign 7:.019436}{ralign 10: .077784}{ralign 10: .282006}{ralign 10: .862259}{ralign 10: 3.19005}
+
+{txt}{hline}
+{res}emissions_per_assets{right:(unlabeled)}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}float{txt})
+
+{col 18}Range: [{res}0{txt},{res}557602.94{txt}]{col 55}Units: {res}1.000e-12
+{col 10}{txt}Unique values: {res}10,449{col 51}{txt}Missing .: {res}12,560{txt}/{res}23,121
+
+{txt}{col 19}Mean: {res}{ralign 7:111.191}
+{txt}{col 14}Std. dev.: {res}{ralign 7:5696.68}
+
+{txt}{col 12}Percentiles: {col 25}{ralign 7:10%}{ralign 10:25%}{ralign 10:50%}{ralign 10:75%}{ralign 10:90%}
+{res}{col 25}{ralign 7:.023148}{ralign 10: .101825}{ralign 10: .404849}{ralign 10: 1.16017}{ralign 10: 3.42558}
+{txt}
+{com}. 
+. *** matched sample, construction
+. 
+. *encode bvdid, gen(firmid)
+. gen belgium = country == "BE"
+{txt}
+{com}. bys firmid: egen sector = mean(floor(nace / 100)) 
+{txt}(755 missing values generated)
+
+{com}. 
+. * winsor2 shfd tshf ncli culi turn toas tfas oppl, replace by(sector year) cuts(1 99)
+. 
+. gen leverage = (ncli + culi) / toas
+{txt}(17,643 missing values generated)
+
+{com}. replace leverage = . if !inrange(leverage, 0, 2)
+{txt}(463 real changes made, 463 to missing)
+
+{com}. 
+. gen tang = tfas / toas  
+{txt}(17,982 missing values generated)
+
+{com}. gen prof = oppl / toas  
+{txt}(19,216 missing values generated)
+
+{com}. gen nopl = oppl < 0 if !missing(oppl)   
+{txt}(19,010 missing values generated)
+
+{com}. gen size = log(toas)
+{txt}(17,115 missing values generated)
+
+{com}. 
+. xtset firmid year
+{res}
+{col 1}{txt:Panel variable: }{res:firmid}{txt: (unbalanced)}
+{p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:1984}}{txt: to }{res:{bind:2018}}{txt:, but with gaps}{p_end}
+{txt}{col 10}Delta: {res}1 unit
+{txt}
+{com}. probit belgium tang prof size nopl c.size#c.tang c.size#c.prof i.sector if year == 2004
+
+{txt}note: {bf:1.sector} != 0 predicts failure perfectly;
+      {bf:1.sector} omitted and 6 obs not used.
+
+note: {bf:5.sector} != 0 predicts failure perfectly;
+      {bf:5.sector} omitted and 2 obs not used.
+
+note: {bf:6.sector} != 0 predicts failure perfectly;
+      {bf:6.sector} omitted and 37 obs not used.
+
+note: {bf:9.sector} != 0 predicts failure perfectly;
+      {bf:9.sector} omitted and 5 obs not used.
+
+note: {bf:12.sector} != 0 predicts failure perfectly;
+      {bf:12.sector} omitted and 7 obs not used.
+
+note: {bf:14.sector} != 0 predicts failure perfectly;
+      {bf:14.sector} omitted and 2 obs not used.
+
+note: {bf:15.sector} != 0 predicts failure perfectly;
+      {bf:15.sector} omitted and 3 obs not used.
+
+note: {bf:18.sector} != 0 predicts failure perfectly;
+      {bf:18.sector} omitted and 1 obs not used.
+
+note: {bf:31.sector} != 0 predicts failure perfectly;
+      {bf:31.sector} omitted and 2 obs not used.
+
+note: {bf:32.sector} != 0 predicts failure perfectly;
+      {bf:32.sector} omitted and 12 obs not used.
+
+note: {bf:33.sector} != 0 predicts failure perfectly;
+      {bf:33.sector} omitted and 2 obs not used.
+
+note: {bf:36.sector} != 0 predicts failure perfectly;
+      {bf:36.sector} omitted and 1 obs not used.
+
+note: {bf:38.sector} != 0 predicts failure perfectly;
+      {bf:38.sector} omitted and 6 obs not used.
+
+note: {bf:39.sector} != 0 predicts failure perfectly;
+      {bf:39.sector} omitted and 3 obs not used.
+
+note: {bf:41.sector} != 0 predicts failure perfectly;
+      {bf:41.sector} omitted and 4 obs not used.
+
+note: {bf:43.sector} != 0 predicts failure perfectly;
+      {bf:43.sector} omitted and 1 obs not used.
+
+note: {bf:45.sector} != 0 predicts failure perfectly;
+      {bf:45.sector} omitted and 4 obs not used.
+
+note: {bf:49.sector} != 0 predicts failure perfectly;
+      {bf:49.sector} omitted and 2 obs not used.
+
+note: {bf:50.sector} != 0 predicts failure perfectly;
+      {bf:50.sector} omitted and 1 obs not used.
+
+note: {bf:52.sector} != 0 predicts failure perfectly;
+      {bf:52.sector} omitted and 1 obs not used.
+
+note: {bf:58.sector} != 0 predicts failure perfectly;
+      {bf:58.sector} omitted and 1 obs not used.
+
+note: {bf:69.sector} != 0 predicts failure perfectly;
+      {bf:69.sector} omitted and 2 obs not used.
+
+note: {bf:70.sector} != 0 predicts failure perfectly;
+      {bf:70.sector} omitted and 13 obs not used.
+
+note: {bf:71.sector} != 0 predicts failure perfectly;
+      {bf:71.sector} omitted and 3 obs not used.
+
+note: {bf:72.sector} != 0 predicts failure perfectly;
+      {bf:72.sector} omitted and 2 obs not used.
+
+note: {bf:73.sector} != 0 predicts failure perfectly;
+      {bf:73.sector} omitted and 1 obs not used.
+
+note: {bf:74.sector} != 0 predicts failure perfectly;
+      {bf:74.sector} omitted and 4 obs not used.
+
+note: {bf:77.sector} != 0 predicts failure perfectly;
+      {bf:77.sector} omitted and 2 obs not used.
+
+note: {bf:78.sector} != 0 predicts failure perfectly;
+      {bf:78.sector} omitted and 2 obs not used.
+
+note: {bf:81.sector} != 0 predicts failure perfectly;
+      {bf:81.sector} omitted and 1 obs not used.
+
+note: {bf:86.sector} != 0 predicts failure perfectly;
+      {bf:86.sector} omitted and 1 obs not used.
+
+note: {bf:87.sector} != 0 predicts failure perfectly;
+      {bf:87.sector} omitted and 1 obs not used.
+
+note: {bf:96.sector} != 0 predicts failure perfectly;
+      {bf:96.sector} omitted and 2 obs not used.
+
+note: {bf:82.sector} omitted because of collinearity.
+{res}{txt}Iteration 0:{space 2}Log likelihood = {res:-524.97817}  
+Iteration 1:{space 2}Log likelihood = {res:-475.43492}  
+Iteration 2:{space 2}Log likelihood = {res:-473.65986}  
+Iteration 3:{space 2}Log likelihood = {res:-473.65279}  
+Iteration 4:{space 2}Log likelihood = {res:-473.65279}  
+{res}
+{txt}{col 1}Probit regression{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:2,260}
+{txt}{col 57}{lalign 13:LR chi2({res:31})}{col 70} = {res}{ralign 6:102.65}
+{txt}{col 57}{lalign 13:Prob > chi2}{col 70} = {res}{ralign 6:0.0000}
+{txt}{col 1}{lalign 14:Log likelihood}{col 15} = {res}{ralign 10:-473.65279}{txt}{col 57}{lalign 13:Pseudo R2}{col 70} = {res}{ralign 6:0.0978}
+
+{txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      belgium{col 15}{c |} Coefficient{col 27}  Std. err.{col 39}      z{col 47}   P>|z|{col 55}     [95% con{col 68}f. interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}tang {c |}{col 15}{res}{space 2} 1.439131{col 27}{space 2} 1.207921{col 38}{space 1}    1.19{col 47}{space 3}0.233{col 55}{space 4}-.9283513{col 68}{space 3} 3.806614
+{txt}{space 9}prof {c |}{col 15}{res}{space 2} 1.309447{col 27}{space 2} 1.801836{col 38}{space 1}    0.73{col 47}{space 3}0.467{col 55}{space 4}-2.222086{col 68}{space 3}  4.84098
+{txt}{space 9}size {c |}{col 15}{res}{space 2} .1408098{col 27}{space 2} .0407961{col 38}{space 1}    3.45{col 47}{space 3}0.001{col 55}{space 4} .0608509{col 68}{space 3} .2207687
+{txt}{space 9}nopl {c |}{col 15}{res}{space 2}-.1971978{col 27}{space 2} .1405385{col 38}{space 1}   -1.40{col 47}{space 3}0.161{col 55}{space 4}-.4726483{col 68}{space 3} .0782526
+{txt}{space 13} {c |}
+c.size#c.tang {c |}{col 15}{res}{space 2}-.2240338{col 27}{space 2} .1050825{col 38}{space 1}   -2.13{col 47}{space 3}0.033{col 55}{space 4}-.4299916{col 68}{space 3}-.0180759
+{txt}{space 13} {c |}
+c.size#c.prof {c |}{col 15}{res}{space 2} -.140579{col 27}{space 2} .1640379{col 38}{space 1}   -0.86{col 47}{space 3}0.391{col 55}{space 4}-.4620873{col 68}{space 3} .1809294
+{txt}{space 13} {c |}
+{space 7}sector {c |}
+{space 11}1  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 11}5  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 11}6  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 11}7  {c |}{col 15}{res}{space 2}-.0801245{col 27}{space 2} .8644552{col 38}{space 1}   -0.09{col 47}{space 3}0.926{col 55}{space 4}-1.774426{col 68}{space 3} 1.614176
+{txt}{space 11}8  {c |}{col 15}{res}{space 2}  .214511{col 27}{space 2} .6283403{col 38}{space 1}    0.34{col 47}{space 3}0.733{col 55}{space 4}-1.017013{col 68}{space 3} 1.446035
+{txt}{space 11}9  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}10  {c |}{col 15}{res}{space 2} .0490798{col 27}{space 2}  .582517{col 38}{space 1}    0.08{col 47}{space 3}0.933{col 55}{space 4}-1.092632{col 68}{space 3} 1.190792
+{txt}{space 10}11  {c |}{col 15}{res}{space 2}-.2045777{col 27}{space 2} .6290961{col 38}{space 1}   -0.33{col 47}{space 3}0.745{col 55}{space 4}-1.437583{col 68}{space 3} 1.028428
+{txt}{space 10}12  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}13  {c |}{col 15}{res}{space 2} .4480504{col 27}{space 2} .6401844{col 38}{space 1}    0.70{col 47}{space 3}0.484{col 55}{space 4}-.8066879{col 68}{space 3} 1.702789
+{txt}{space 10}14  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}15  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}16  {c |}{col 15}{res}{space 2}-.0861807{col 27}{space 2} .6443692{col 38}{space 1}   -0.13{col 47}{space 3}0.894{col 55}{space 4}-1.349121{col 68}{space 3}  1.17676
+{txt}{space 10}17  {c |}{col 15}{res}{space 2}-.5603341{col 27}{space 2} .5939416{col 38}{space 1}   -0.94{col 47}{space 3}0.345{col 55}{space 4}-1.724438{col 68}{space 3}   .60377
+{txt}{space 10}18  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}19  {c |}{col 15}{res}{space 2}-.1301536{col 27}{space 2} .6247203{col 38}{space 1}   -0.21{col 47}{space 3}0.835{col 55}{space 4}-1.354583{col 68}{space 3} 1.094276
+{txt}{space 10}20  {c |}{col 15}{res}{space 2} .1067181{col 27}{space 2} .5808876{col 38}{space 1}    0.18{col 47}{space 3}0.854{col 55}{space 4}-1.031801{col 68}{space 3} 1.245237
+{txt}{space 10}21  {c |}{col 15}{res}{space 2}-.3234802{col 27}{space 2} .6565191{col 38}{space 1}   -0.49{col 47}{space 3}0.622{col 55}{space 4}-1.610234{col 68}{space 3} .9632736
+{txt}{space 10}22  {c |}{col 15}{res}{space 2}-.0437858{col 27}{space 2} .6546121{col 38}{space 1}   -0.07{col 47}{space 3}0.947{col 55}{space 4}-1.326802{col 68}{space 3}  1.23923
+{txt}{space 10}23  {c |}{col 15}{res}{space 2} -.461038{col 27}{space 2} .5812984{col 38}{space 1}   -0.79{col 47}{space 3}0.428{col 55}{space 4}-1.600362{col 68}{space 3}  .678286
+{txt}{space 10}24  {c |}{col 15}{res}{space 2}-.3778955{col 27}{space 2} .5944195{col 38}{space 1}   -0.64{col 47}{space 3}0.525{col 55}{space 4}-1.542936{col 68}{space 3} .7871453
+{txt}{space 10}25  {c |}{col 15}{res}{space 2}-.0465683{col 27}{space 2}  .683671{col 38}{space 1}   -0.07{col 47}{space 3}0.946{col 55}{space 4}-1.386539{col 68}{space 3} 1.293402
+{txt}{space 10}26  {c |}{col 15}{res}{space 2}-.0284191{col 27}{space 2} .8718792{col 38}{space 1}   -0.03{col 47}{space 3}0.974{col 55}{space 4}-1.737271{col 68}{space 3} 1.680433
+{txt}{space 10}27  {c |}{col 15}{res}{space 2}-.1447518{col 27}{space 2} .7857788{col 38}{space 1}   -0.18{col 47}{space 3}0.854{col 55}{space 4} -1.68485{col 68}{space 3} 1.395346
+{txt}{space 10}28  {c |}{col 15}{res}{space 2}-.3640194{col 27}{space 2} .6859437{col 38}{space 1}   -0.53{col 47}{space 3}0.596{col 55}{space 4}-1.708444{col 68}{space 3} .9804055
+{txt}{space 10}29  {c |}{col 15}{res}{space 2}-.6077081{col 27}{space 2} .6632149{col 38}{space 1}   -0.92{col 47}{space 3}0.360{col 55}{space 4}-1.907586{col 68}{space 3} .6921693
+{txt}{space 10}30  {c |}{col 15}{res}{space 2}-.5497406{col 27}{space 2} .7472655{col 38}{space 1}   -0.74{col 47}{space 3}0.462{col 55}{space 4}-2.014354{col 68}{space 3} .9148729
+{txt}{space 10}31  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}32  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}33  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}35  {c |}{col 15}{res}{space 2}-.5431031{col 27}{space 2} .7169688{col 38}{space 1}   -0.76{col 47}{space 3}0.449{col 55}{space 4}-1.948336{col 68}{space 3} .8621299
+{txt}{space 10}36  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}38  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}39  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}41  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}42  {c |}{col 15}{res}{space 2}-.0078501{col 27}{space 2} .7961213{col 38}{space 1}   -0.01{col 47}{space 3}0.992{col 55}{space 4}-1.568219{col 68}{space 3} 1.552519
+{txt}{space 10}43  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}45  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}46  {c |}{col 15}{res}{space 2}-.0424989{col 27}{space 2} .6076564{col 38}{space 1}   -0.07{col 47}{space 3}0.944{col 55}{space 4}-1.233484{col 68}{space 3} 1.148486
+{txt}{space 10}47  {c |}{col 15}{res}{space 2} .2186805{col 27}{space 2} .8087574{col 38}{space 1}    0.27{col 47}{space 3}0.787{col 55}{space 4}-1.366455{col 68}{space 3} 1.803816
+{txt}{space 10}49  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}50  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}52  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}58  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}64  {c |}{col 15}{res}{space 2}-.3386979{col 27}{space 2} .6864121{col 38}{space 1}   -0.49{col 47}{space 3}0.622{col 55}{space 4}-1.684041{col 68}{space 3} 1.006645
+{txt}{space 10}68  {c |}{col 15}{res}{space 2}-.2124471{col 27}{space 2} .7490875{col 38}{space 1}   -0.28{col 47}{space 3}0.777{col 55}{space 4}-1.680632{col 68}{space 3} 1.255737
+{txt}{space 10}69  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}70  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}71  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}72  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}73  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}74  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}77  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}78  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}81  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}82  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (omitted)
+{space 10}86  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}87  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 10}96  {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (empty)
+{space 13} {c |}
+{space 8}_cons {c |}{col 15}{res}{space 2}-2.499862{col 27}{space 2} .7536824{col 38}{space 1}   -3.32{col 47}{space 3}0.001{col 55}{space 4}-3.977052{col 68}{space 3}-1.022671
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. predict pscore if e(sample)
+{txt}(option {bf:pr} assumed; Pr(belgium))
+(76,425 missing values generated)
+
+{com}. 
+. // adjust score to the groups of countries, sectors and years
+. egen cell = group(sector)
+{res}{txt}(755 missing values generated)
+
+{com}. replace pscore = cell*2 + pscore
+{txt}(2,260 real changes made)
+
+{com}. 
+. // use psmatch only to get matching
+. gen randomorder = runiform()
+{txt}
+{com}. sort randomorder
+{txt}
+{com}. psmatch2 belgium, caliper(0.1) neighbor(1) out(year) pscore(pscore) ties //noreplacement
+{res}{txt}{hline 28}{c TT}{hline 59}
+        Variable     Sample {c |}    Treated     Controls   Difference         S.E.   T-stat
+{hline 28}{c +}{hline 59}
+            year  Unmatched {c |}{res}       2004         2004            0            0        .
+{txt}{col 17}        ATT {c |}{res}       2004         2004            0            0        .
+{txt}{hline 28}{c +}{hline 59}
+Note: S.E. does not take into account that the propensity score is estimated.
+
+ psmatch2: {c |}   psmatch2: Common
+ Treatment {c |}        support
+assignment {c |} Off suppo  On suppor {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+ Untreated {c |}{res}         0      2,120 {txt}{c |}{res}     2,120 
+{txt}   Treated {c |}{res}         2        138 {txt}{c |}{res}       140 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}         2      2,258 {txt}{c |}{res}     2,260 
+{txt}
+{com}. 
+. // test PS matching results
+. ttest tang if year == 2004, by(belgium) // before matching
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. err.{col 47}Std. dev.{col 59}[95% conf. interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}  2,330{col 22} .4092117{col 34} .0045516{col 46} .2197037{col 58} .4002862{col 70} .4181372
+       {txt}1 {c |}{res}{col 12}    140{col 22} .2861976{col 34} .0184392{col 46} .2181761{col 58}   .24974{col 70} .3226553
+{txt}{hline 9}{c +}{hline 68}
+Combined {c |}{res}{col 12}  2,470{col 22} .4022393{col 34}  .004455{col 46} .2214089{col 58} .3935034{col 70} .4109752
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .1230141{col 34} .0191106{col 58} .0855396{col 70} .1604885
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res}  6.4370
+{txt}H0: diff = 0                                     Degrees of freedom = {res}    2468
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}1.0000         {txt}Pr(|T| > |t|) = {res}0.0000          {txt}Pr(T > t) = {res}0.0000
+{txt}
+{com}. ttest tang if year == 2004 & !missing(_weight), by(belgium) // after matching
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. err.{col 47}Std. dev.{col 59}[95% conf. interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}    129{col 22} .3259586{col 34} .0188372{col 46} .2139495{col 58}  .288686{col 70} .3632312
+       {txt}1 {c |}{res}{col 12}    138{col 22} .2902334{col 34} .0184837{col 46} .2171343{col 58} .2536831{col 70} .3267836
+{txt}{hline 9}{c +}{hline 68}
+Combined {c |}{res}{col 12}    267{col 22} .3074939{col 34} .0132152{col 46} .2159382{col 58} .2814742{col 70} .3335136
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .0357252{col 34} .0264042{col 58}-.0162636{col 70}  .087714
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res}  1.3530
+{txt}H0: diff = 0                                     Degrees of freedom = {res}     265
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.9114         {txt}Pr(|T| > |t|) = {res}0.1772          {txt}Pr(T > t) = {res}0.0886
+{txt}
+{com}. 
+. ttest prof if year == 2004, by(belgium) // before matching
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. err.{col 47}Std. dev.{col 59}[95% conf. interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}  2,287{col 22} .0677445{col 34} .0033598{col 46} .1606748{col 58} .0611559{col 70} .0743331
+       {txt}1 {c |}{res}{col 12}    140{col 22} .0685082{col 34} .0073829{col 46} .0873562{col 58} .0539108{col 70} .0831056
+{txt}{hline 9}{c +}{hline 68}
+Combined {c |}{res}{col 12}  2,427{col 22} .0677886{col 34} .0031943{col 46} .1573653{col 58} .0615248{col 70} .0740524
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}-.0007637{col 34} .0137036{col 58}-.0276358{col 70} .0261083
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res} -0.0557
+{txt}H0: diff = 0                                     Degrees of freedom = {res}    2425
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.4778         {txt}Pr(|T| > |t|) = {res}0.9556          {txt}Pr(T > t) = {res}0.5222
+{txt}
+{com}. ttest prof if year == 2004 & !missing(_weight), by(belgium) // after matching
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. err.{col 47}Std. dev.{col 59}[95% conf. interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}    129{col 22} .0715934{col 34} .0070397{col 46} .0799561{col 58}  .057664{col 70} .0855227
+       {txt}1 {c |}{res}{col 12}    138{col 22} .0692887{col 34} .0074691{col 46} .0877422{col 58} .0545191{col 70} .0840584
+{txt}{hline 9}{c +}{hline 68}
+Combined {c |}{res}{col 12}    267{col 22} .0704022{col 34} .0051359{col 46} .0839212{col 58}   .06029{col 70} .0805144
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .0023046{col 34}  .010296{col 58}-.0179678{col 70} .0225771
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res}  0.2238
+{txt}H0: diff = 0                                     Degrees of freedom = {res}     265
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.5885         {txt}Pr(|T| > |t|) = {res}0.8231          {txt}Pr(T > t) = {res}0.4115
+{txt}
+{com}. 
+. ttest size if year == 2004, by(belgium) // before matching
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. err.{col 47}Std. dev.{col 59}[95% conf. interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}  2,359{col 22} 10.83858{col 34} .0485908{col 46} 2.360033{col 58}  10.7433{col 70} 10.93387
+       {txt}1 {c |}{res}{col 12}    140{col 22} 11.79709{col 34} .1567878{col 46} 1.855138{col 58} 11.48709{col 70} 12.10709
+{txt}{hline 9}{c +}{hline 68}
+Combined {c |}{res}{col 12}  2,499{col 22} 10.89228{col 34} .0469038{col 46} 2.344719{col 58} 10.80031{col 70} 10.98426
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}-.9585048{col 34} .2030975{col 58}-1.356762{col 70} -.560248
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res} -4.7194
+{txt}H0: diff = 0                                     Degrees of freedom = {res}    2497
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.0000         {txt}Pr(|T| > |t|) = {res}0.0000          {txt}Pr(T > t) = {res}1.0000
+{txt}
+{com}. ttest size if year == 2004 & !missing(_weight), by(belgium) // after matching
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. err.{col 47}Std. dev.{col 59}[95% conf. interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}    129{col 22} 11.70526{col 34} .1863668{col 46}  2.11672{col 58}  11.3365{col 70} 12.07402
+       {txt}1 {c |}{res}{col 12}    138{col 22} 11.74047{col 34} .1531958{col 46} 1.799643{col 58} 11.43754{col 70} 12.04341
+{txt}{hline 9}{c +}{hline 68}
+Combined {c |}{res}{col 12}    267{col 22} 11.72346{col 34} .1196813{col 46} 1.955608{col 58} 11.48782{col 70}  11.9591
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}-.0352159{col 34} .2399403{col 58}-.5076479{col 70} .4372161
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res} -0.1468
+{txt}H0: diff = 0                                     Degrees of freedom = {res}     265
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.4417         {txt}Pr(|T| > |t|) = {res}0.8834          {txt}Pr(T > t) = {res}0.5583
+{txt}
+{com}. 
+. ttest nopl if year == 2004, by(belgium) // before matching
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. err.{col 47}Std. dev.{col 59}[95% conf. interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}  2,331{col 22} .1866152{col 34} .0080713{col 46} .3896859{col 58} .1707875{col 70} .2024429
+       {txt}1 {c |}{res}{col 12}    140{col 22} .1285714{col 34}  .028391{col 46} .3359269{col 58} .0724374{col 70} .1847055
+{txt}{hline 9}{c +}{hline 68}
+Combined {c |}{res}{col 12}  2,471{col 22} .1833266{col 34} .0077855{col 46} .3870124{col 58} .1680597{col 70} .1985934
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .0580438{col 34}  .033663{col 58}-.0079668{col 70} .1240544
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res}  1.7243
+{txt}H0: diff = 0                                     Degrees of freedom = {res}    2469
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.9576         {txt}Pr(|T| > |t|) = {res}0.0848          {txt}Pr(T > t) = {res}0.0424
+{txt}
+{com}. ttest nopl if year == 2004 & !missing(_weight), by(belgium) // after matching
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. err.{col 47}Std. dev.{col 59}[95% conf. interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}    129{col 22} .1162791{col 34} .0283337{col 46}  .321809{col 58}  .060216{col 70} .1723421
+       {txt}1 {c |}{res}{col 12}    138{col 22} .1304348{col 34} .0287732{col 46} .3380081{col 58} .0735378{col 70} .1873317
+{txt}{hline 9}{c +}{hline 68}
+Combined {c |}{res}{col 12}    267{col 22} .1235955{col 34} .0201796{col 46} .3297376{col 58} .0838634{col 70} .1633276
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}-.0141557{col 34} .0404489{col 58}-.0937979{col 70} .0654865
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res} -0.3500
+{txt}H0: diff = 0                                     Degrees of freedom = {res}     265
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.3633         {txt}Pr(|T| > |t|) = {res}0.7266          {txt}Pr(T > t) = {res}0.6367
+{txt}
+{com}. 
+. //gen psmw = _weight
+. bys firmid: egen psmw = total(_weight), missing 
+{txt}(72,665 missing values generated)
+
+{com}. 
+. *** end of matched sample, construction
+. 
+. save "$data\2_Interim files_DS\orbis_cleaned.dta", replace
+{txt}{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\0_data_DS\2_Interim files_DS\orbis_cleaned.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_DS\4_logs_DS\1 Data merging.txt
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 4 Nov 2026, 07:41:21
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

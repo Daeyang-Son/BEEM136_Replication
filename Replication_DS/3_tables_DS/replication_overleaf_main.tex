@@ -1,0 +1,31 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\section{Replication: Table 3}
+
+\begin{table}[H]
+\centering
+\caption{Finance and Sector-Level Carbon Emissions: OLS}
+\resizebox{\textwidth}{!}{%
+    \input{Table-fin.tex}
+}
+\end{table}
+
+\section{Extension: Excluding 18 Countries}
+
+\begin{table}[H]
+\centering
+\caption{Finance and Sector-Level Carbon Emissions: Extension}
+\resizebox{\textwidth}{!}{%
+    \input{Table-Extension-fin.tex}
+}
+\end{table}
+
+\end{document}

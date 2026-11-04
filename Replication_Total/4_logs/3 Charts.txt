@@ -1,0 +1,651 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\4_logs\3 Charts.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 2 Nov 2026, 21:23:52
+{txt}
+{com}.  
+.  * This do file produces Charts 1 and 2.
+. 
+. ********************************************************************************        
+. di "GLOBAL FINANCIAL DEVELOPMENT OVER TIME (CHART 1)"
+{res}GLOBAL FINANCIAL DEVELOPMENT OVER TIME (CHART 1)
+{txt}
+{com}. ********************************************************************************
+. 
+. use "$data\2_Interim files\country_cleaned.dta", clear
+{txt}
+{com}. 
+. 
+. keep if year<=2015
+{txt}(188 observations deleted)
+
+{com}. 
+. bysort code: egen fd_av=mean(fin_dev1)
+{txt}
+{com}. bysort code: egen fs_av=mean(fin_str2)
+{txt}
+{com}. 
+. drop if fd_av==. | fs_av==.
+{txt}(0 observations deleted)
+
+{com}. 
+. bysort year: egen pop_mil_tot=sum(pop_mil)
+{txt}
+{com}. gen pop_ratio= pop_mil/ pop_mil_tot
+{txt}(49 missing values generated)
+
+{com}. 
+. gen fd_pw= fin_dev1* pop_ratio
+{txt}(207 missing values generated)
+
+{com}. gen fs_pw= fin_str2* pop_ratio
+{txt}(207 missing values generated)
+
+{com}. 
+. bysort year: egen fd_world=sum( fd_pw)
+{txt}
+{com}. bysort year: egen fs_world=sum( fs_pw)
+{txt}
+{com}. 
+. label var fd_world "Financial Development"
+{txt}
+{com}. label var fs_world "Equity Share"
+{txt}
+{com}. 
+. label var year "   "
+{txt}
+{com}. 
+. 
+. 
+. qui twoway (line fd_world year if year>=1990 & code=="USA", lcolor(gs0) lwidth(medthick) title("Financial Development and Equity Share") subtitle("World, 1990-2015")) (line fs_world year if year>=1990 & code=="USA", lcolor(gs0) lwidth(medthick) lpattern(dash))
+{txt}
+{com}. 
+. graph export "${c -(}figures{c )-}/Chart1.png", replace height(1600)
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/Chart1.png{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/Chart1.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}. 
+. ********************************************************************************        
+. di "CARBON EMISSIONS PER CAPITA OVER TIME (CHART 2)"
+{res}CARBON EMISSIONS PER CAPITA OVER TIME (CHART 2)
+{txt}
+{com}. ********************************************************************************
+. 
+. use "$data\2_Interim files\country_sector_cleaned.dta", clear
+{txt}
+{com}. 
+. tabstat cotwo_intensity_wd fin_str2, stat(n mean med) col(stat)
+
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50
+{hline 13}{c +}{hline 30}
+{ralign 12:cotwo_int~wd} {...}
+{c |}{...}
+ {res}    11169  1.281975   .494083
+{txt}{ralign 12:fin_str2} {...}
+{c |}{...}
+ {res}    17028  .3900091   .387763
+{txt}{hline 13}{c BT}{hline 30}
+
+{com}. 
+. * low carbon intensity, low equity share
+. reghdfe cotwo_per_gdp year_1991-year_2015 if cotwo_intensity_wd<.49 & fin_str2<.39 & cotwo_intensity_wd!=. & fin_str2!=. & share_l1!=., a(ci)
+{res}{txt}(dropped 5 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 1 iterations)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}     1,712
+{txt}Absorbing 1 HDFE group{col 51}F({res}  25{txt},{res}   1549{txt}){col 67}= {res}     10.65
+{txt}{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.7232
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.6942
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1467
+{txt}{col 51}Root MSE{col 67}= {res}    0.0035
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}cotwo_per~dp{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}year_1991 {c |}{col 14}{res}{space 2}-1.55e-06{col 26}{space 2} .0006455{col 37}{space 1}   -0.00{col 46}{space 3}0.998{col 54}{space 4}-.0012677{col 67}{space 3} .0012646
+{txt}{space 3}year_1992 {c |}{col 14}{res}{space 2} .0018847{col 26}{space 2} .0006203{col 37}{space 1}    3.04{col 46}{space 3}0.002{col 54}{space 4}  .000668{col 67}{space 3} .0031015
+{txt}{space 3}year_1993 {c |}{col 14}{res}{space 2} .0015639{col 26}{space 2} .0006243{col 37}{space 1}    2.51{col 46}{space 3}0.012{col 54}{space 4} .0003394{col 67}{space 3} .0027885
+{txt}{space 3}year_1994 {c |}{col 14}{res}{space 2} .0014546{col 26}{space 2} .0006401{col 37}{space 1}    2.27{col 46}{space 3}0.023{col 54}{space 4} .0001991{col 67}{space 3} .0027101
+{txt}{space 3}year_1995 {c |}{col 14}{res}{space 2} .0015376{col 26}{space 2} .0006388{col 37}{space 1}    2.41{col 46}{space 3}0.016{col 54}{space 4} .0002846{col 67}{space 3} .0027906
+{txt}{space 3}year_1996 {c |}{col 14}{res}{space 2} .0011436{col 26}{space 2}  .000634{col 37}{space 1}    1.80{col 46}{space 3}0.071{col 54}{space 4}   -.0001{col 67}{space 3} .0023873
+{txt}{space 3}year_1997 {c |}{col 14}{res}{space 2} .0010186{col 26}{space 2}  .000654{col 37}{space 1}    1.56{col 46}{space 3}0.120{col 54}{space 4}-.0002643{col 67}{space 3} .0023014
+{txt}{space 3}year_1998 {c |}{col 14}{res}{space 2} .0010186{col 26}{space 2} .0006936{col 37}{space 1}    1.47{col 46}{space 3}0.142{col 54}{space 4} -.000342{col 67}{space 3} .0023791
+{txt}{space 3}year_1999 {c |}{col 14}{res}{space 2}-.0004532{col 26}{space 2} .0006928{col 37}{space 1}   -0.65{col 46}{space 3}0.513{col 54}{space 4}-.0018122{col 67}{space 3} .0009057
+{txt}{space 3}year_2000 {c |}{col 14}{res}{space 2}-.0002119{col 26}{space 2} .0007052{col 37}{space 1}   -0.30{col 46}{space 3}0.764{col 54}{space 4}-.0015952{col 67}{space 3} .0011714
+{txt}{space 3}year_2001 {c |}{col 14}{res}{space 2} -.001079{col 26}{space 2} .0006766{col 37}{space 1}   -1.59{col 46}{space 3}0.111{col 54}{space 4}-.0024062{col 67}{space 3} .0002482
+{txt}{space 3}year_2002 {c |}{col 14}{res}{space 2}-.0012466{col 26}{space 2} .0006602{col 37}{space 1}   -1.89{col 46}{space 3}0.059{col 54}{space 4}-.0025417{col 67}{space 3} .0000484
+{txt}{space 3}year_2003 {c |}{col 14}{res}{space 2}-.0013966{col 26}{space 2} .0006418{col 37}{space 1}   -2.18{col 46}{space 3}0.030{col 54}{space 4}-.0026555{col 67}{space 3}-.0001377
+{txt}{space 3}year_2004 {c |}{col 14}{res}{space 2}-.0015132{col 26}{space 2} .0006808{col 37}{space 1}   -2.22{col 46}{space 3}0.026{col 54}{space 4}-.0028485{col 67}{space 3}-.0001778
+{txt}{space 3}year_2005 {c |}{col 14}{res}{space 2} -.001708{col 26}{space 2} .0006989{col 37}{space 1}   -2.44{col 46}{space 3}0.015{col 54}{space 4}-.0030789{col 67}{space 3}-.0003371
+{txt}{space 3}year_2006 {c |}{col 14}{res}{space 2}-.0020227{col 26}{space 2} .0007094{col 37}{space 1}   -2.85{col 46}{space 3}0.004{col 54}{space 4}-.0034141{col 67}{space 3}-.0006313
+{txt}{space 3}year_2007 {c |}{col 14}{res}{space 2}-.0015315{col 26}{space 2} .0007622{col 37}{space 1}   -2.01{col 46}{space 3}0.045{col 54}{space 4}-.0030266{col 67}{space 3}-.0000364
+{txt}{space 3}year_2008 {c |}{col 14}{res}{space 2}-.0016368{col 26}{space 2} .0006274{col 37}{space 1}   -2.61{col 46}{space 3}0.009{col 54}{space 4}-.0028675{col 67}{space 3}-.0004061
+{txt}{space 3}year_2009 {c |}{col 14}{res}{space 2}-.0020885{col 26}{space 2} .0005951{col 37}{space 1}   -3.51{col 46}{space 3}0.000{col 54}{space 4}-.0032558{col 67}{space 3}-.0009211
+{txt}{space 3}year_2010 {c |}{col 14}{res}{space 2}-.0019294{col 26}{space 2} .0006107{col 37}{space 1}   -3.16{col 46}{space 3}0.002{col 54}{space 4}-.0031273{col 67}{space 3}-.0007315
+{txt}{space 3}year_2011 {c |}{col 14}{res}{space 2}-.0020334{col 26}{space 2} .0006114{col 37}{space 1}   -3.33{col 46}{space 3}0.001{col 54}{space 4}-.0032326{col 67}{space 3}-.0008341
+{txt}{space 3}year_2012 {c |}{col 14}{res}{space 2}-.0022533{col 26}{space 2} .0005903{col 37}{space 1}   -3.82{col 46}{space 3}0.000{col 54}{space 4}-.0034113{col 67}{space 3}-.0010954
+{txt}{space 3}year_2013 {c |}{col 14}{res}{space 2}-.0020862{col 26}{space 2} .0006657{col 37}{space 1}   -3.13{col 46}{space 3}0.002{col 54}{space 4}-.0033919{col 67}{space 3}-.0007805
+{txt}{space 3}year_2014 {c |}{col 14}{res}{space 2}-.0026553{col 26}{space 2} .0006687{col 37}{space 1}   -3.97{col 46}{space 3}0.000{col 54}{space 4} -.003967{col 67}{space 3}-.0013436
+{txt}{space 3}year_2015 {c |}{col 14}{res}{space 2}-.0031237{col 26}{space 2} .0006528{col 37}{space 1}   -4.78{col 46}{space 3}0.000{col 54}{space 4}-.0044043{col 67}{space 3}-.0018432
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}   .00435{col 26}{space 2} .0004714{col 37}{space 1}    9.23{col 46}{space 3}0.000{col 54}{space 4} .0034253{col 67}{space 3} .0052747
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text} Absorbed FE{col 14}{c |} Categories{col 27} - Redundant{col 39}  = Num. Coefs{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}          ci{col 14}{c |}{space 1}      138{col 27}{space 1}        0{col 39}{result}{space 1}      138{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+{res}{txt}
+{com}. 
+. regsave year_1991-year_2015 using "$tables/Chart2_1", replace
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables/Chart2_1.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables/Chart2_1.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. use "$tables/Chart2_1", clear
+{txt}
+{com}. 
+. keep var coef stderr
+{txt}
+{com}. gen year=.
+{txt}(25 missing values generated)
+
+{com}. foreach i of num 1991/2015 {c -(}
+{txt}  2{com}.     replace year=`i' if strpos(var, "`i'")
+{txt}  3{com}. {c )-}
+{txt}(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+{com}. drop var
+{txt}
+{com}. 
+. gen ci95=1.96*stderr
+{txt}
+{com}. label var coef "Point estimate"
+{txt}
+{com}. label var year "Year"
+{txt}
+{com}. 
+. serrbar coef ci95 year, xlabel(1991 "91" 1992 "92" 1993 "93" 1994 "94" 1995 "95" 1996 "96" 1997 "97" 1998 "98" 1999 "99" 2000 "00" 2001 "01" 2002 "02" 2003 "03" 2004 "04" 2005 "05" 2006 "06" 2007 "07" 2008 "08" 2009 "09" 2010 "10" 2011 "11" 2012 "12" 2013 "13" 2014 "14" 2015 "15", alternate) title ("Low carbon intensity, low equity share") yscale (range(-0.005 0.005)) ylabel(#7)
+{res}{txt}
+{com}. 
+. graph export "${c -(}figures{c )-}/Chart2_1.png", replace height(1600)
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/Chart2_1.png{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/Chart2_1.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}. cap erase "$tables/Chart2_1.dta"
+{txt}
+{com}. 
+. 
+. * low carbon intensity, high equity share
+. use "$data\2_Interim files\country_sector_cleaned.dta", clear
+{txt}
+{com}. 
+. reghdfe cotwo_per_gdp year_1991-year_2015 if cotwo_intensity_wd<.49 & fin_str2>.39 & cotwo_intensity_wd!=. & fin_str2!=. & share_l1!=., a(ci)
+{res}{txt}(dropped 13 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 1 iterations)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}     1,544
+{txt}Absorbing 1 HDFE group{col 51}F({res}  25{txt},{res}   1394{txt}){col 67}= {res}     18.71
+{txt}{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.8554
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.8399
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.2512
+{txt}{col 51}Root MSE{col 67}= {res}    0.0012
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}cotwo_per~dp{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}year_1991 {c |}{col 14}{res}{space 2} .0001398{col 26}{space 2} .0003789{col 37}{space 1}    0.37{col 46}{space 3}0.712{col 54}{space 4}-.0006036{col 67}{space 3} .0008831
+{txt}{space 3}year_1992 {c |}{col 14}{res}{space 2} .0004138{col 26}{space 2} .0003783{col 37}{space 1}    1.09{col 46}{space 3}0.274{col 54}{space 4}-.0003283{col 67}{space 3} .0011559
+{txt}{space 3}year_1993 {c |}{col 14}{res}{space 2} .0006598{col 26}{space 2} .0003723{col 37}{space 1}    1.77{col 46}{space 3}0.077{col 54}{space 4}-.0000705{col 67}{space 3}   .00139
+{txt}{space 3}year_1994 {c |}{col 14}{res}{space 2} .0001268{col 26}{space 2} .0003562{col 37}{space 1}    0.36{col 46}{space 3}0.722{col 54}{space 4} -.000572{col 67}{space 3} .0008255
+{txt}{space 3}year_1995 {c |}{col 14}{res}{space 2}  .000225{col 26}{space 2} .0003432{col 37}{space 1}    0.66{col 46}{space 3}0.512{col 54}{space 4}-.0004483{col 67}{space 3} .0008983
+{txt}{space 3}year_1996 {c |}{col 14}{res}{space 2} .0000559{col 26}{space 2} .0003385{col 37}{space 1}    0.17{col 46}{space 3}0.869{col 54}{space 4}-.0006081{col 67}{space 3}   .00072
+{txt}{space 3}year_1997 {c |}{col 14}{res}{space 2}-.0001559{col 26}{space 2} .0003272{col 37}{space 1}   -0.48{col 46}{space 3}0.634{col 54}{space 4}-.0007977{col 67}{space 3} .0004858
+{txt}{space 3}year_1998 {c |}{col 14}{res}{space 2}-.0001049{col 26}{space 2} .0003295{col 37}{space 1}   -0.32{col 46}{space 3}0.750{col 54}{space 4}-.0007513{col 67}{space 3} .0005415
+{txt}{space 3}year_1999 {c |}{col 14}{res}{space 2} -.000274{col 26}{space 2} .0003277{col 37}{space 1}   -0.84{col 46}{space 3}0.403{col 54}{space 4}-.0009169{col 67}{space 3}  .000369
+{txt}{space 3}year_2000 {c |}{col 14}{res}{space 2}-.0004403{col 26}{space 2} .0003195{col 37}{space 1}   -1.38{col 46}{space 3}0.168{col 54}{space 4}-.0010672{col 67}{space 3} .0001865
+{txt}{space 3}year_2001 {c |}{col 14}{res}{space 2}-.0005861{col 26}{space 2} .0003209{col 37}{space 1}   -1.83{col 46}{space 3}0.068{col 54}{space 4}-.0012156{col 67}{space 3} .0000433
+{txt}{space 3}year_2002 {c |}{col 14}{res}{space 2}-.0007075{col 26}{space 2} .0003229{col 37}{space 1}   -2.19{col 46}{space 3}0.029{col 54}{space 4}-.0013409{col 67}{space 3} -.000074
+{txt}{space 3}year_2003 {c |}{col 14}{res}{space 2}-.0007907{col 26}{space 2} .0003267{col 37}{space 1}   -2.42{col 46}{space 3}0.016{col 54}{space 4}-.0014315{col 67}{space 3}-.0001499
+{txt}{space 3}year_2004 {c |}{col 14}{res}{space 2}-.0008723{col 26}{space 2} .0003208{col 37}{space 1}   -2.72{col 46}{space 3}0.007{col 54}{space 4}-.0015015{col 67}{space 3} -.000243
+{txt}{space 3}year_2005 {c |}{col 14}{res}{space 2}-.0011413{col 26}{space 2} .0003189{col 37}{space 1}   -3.58{col 46}{space 3}0.000{col 54}{space 4}-.0017669{col 67}{space 3}-.0005157
+{txt}{space 3}year_2006 {c |}{col 14}{res}{space 2}-.0012948{col 26}{space 2} .0003185{col 37}{space 1}   -4.07{col 46}{space 3}0.000{col 54}{space 4}-.0019196{col 67}{space 3}  -.00067
+{txt}{space 3}year_2007 {c |}{col 14}{res}{space 2}-.0014339{col 26}{space 2} .0003189{col 37}{space 1}   -4.50{col 46}{space 3}0.000{col 54}{space 4}-.0020594{col 67}{space 3}-.0008083
+{txt}{space 3}year_2008 {c |}{col 14}{res}{space 2}-.0015907{col 26}{space 2} .0003296{col 37}{space 1}   -4.83{col 46}{space 3}0.000{col 54}{space 4}-.0022372{col 67}{space 3}-.0009442
+{txt}{space 3}year_2009 {c |}{col 14}{res}{space 2}-.0017309{col 26}{space 2} .0003498{col 37}{space 1}   -4.95{col 46}{space 3}0.000{col 54}{space 4}-.0024171{col 67}{space 3}-.0010448
+{txt}{space 3}year_2010 {c |}{col 14}{res}{space 2}-.0017628{col 26}{space 2}  .000335{col 37}{space 1}   -5.26{col 46}{space 3}0.000{col 54}{space 4}-.0024199{col 67}{space 3}-.0011057
+{txt}{space 3}year_2011 {c |}{col 14}{res}{space 2}-.0017276{col 26}{space 2} .0003371{col 37}{space 1}   -5.12{col 46}{space 3}0.000{col 54}{space 4}-.0023888{col 67}{space 3}-.0010663
+{txt}{space 3}year_2012 {c |}{col 14}{res}{space 2}-.0018495{col 26}{space 2} .0003538{col 37}{space 1}   -5.23{col 46}{space 3}0.000{col 54}{space 4}-.0025436{col 67}{space 3}-.0011555
+{txt}{space 3}year_2013 {c |}{col 14}{res}{space 2} -.001819{col 26}{space 2} .0003413{col 37}{space 1}   -5.33{col 46}{space 3}0.000{col 54}{space 4}-.0024885{col 67}{space 3}-.0011495
+{txt}{space 3}year_2014 {c |}{col 14}{res}{space 2} -.002233{col 26}{space 2} .0003361{col 37}{space 1}   -6.64{col 46}{space 3}0.000{col 54}{space 4}-.0028924{col 67}{space 3}-.0015735
+{txt}{space 3}year_2015 {c |}{col 14}{res}{space 2}-.0019979{col 26}{space 2}  .000349{col 37}{space 1}   -5.73{col 46}{space 3}0.000{col 54}{space 4}-.0026825{col 67}{space 3}-.0013133
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0031536{col 26}{space 2} .0002916{col 37}{space 1}   10.81{col 46}{space 3}0.000{col 54}{space 4} .0025815{col 67}{space 3} .0037257
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text} Absorbed FE{col 14}{c |} Categories{col 27} - Redundant{col 39}  = Num. Coefs{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}          ci{col 14}{c |}{space 1}      125{col 27}{space 1}        0{col 39}{result}{space 1}      125{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+{res}{txt}
+{com}. 
+. regsave year_1991-year_2015 using "$tables/Chart2_2", replace
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables/Chart2_2.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables/Chart2_2.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. use "$tables/Chart2_2", clear
+{txt}
+{com}. 
+. keep var coef stderr
+{txt}
+{com}. gen year=.
+{txt}(25 missing values generated)
+
+{com}. foreach i of num 1991/2015 {c -(}
+{txt}  2{com}.     replace year=`i' if strpos(var, "`i'")
+{txt}  3{com}. {c )-}
+{txt}(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+{com}. drop var
+{txt}
+{com}. 
+. gen ci95=1.96*stderr
+{txt}
+{com}. label var coef "Point estimate"
+{txt}
+{com}. label var year "Year"
+{txt}
+{com}. 
+. serrbar coef ci95 year, xlabel(1991 "91" 1992 "92" 1993 "93" 1994 "94" 1995 "95" 1996 "96" 1997 "97" 1998 "98" 1999 "99" 2000 "00" 2001 "01" 2002 "02" 2003 "03" 2004 "04" 2005 "05" 2006 "06" 2007 "07" 2008 "08" 2009 "09" 2010 "10" 2011 "11" 2012 "12" 2013 "13" 2014 "14" 2015 "15", alternate) title ("Low carbon intensity, high equity share") yscale (range(-0.005 0.005)) ylabel(#7)
+{res}{txt}
+{com}. 
+. graph export "${c -(}figures{c )-}/Chart2_2.png", replace height(1600)
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/Chart2_2.png{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/Chart2_2.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}. cap erase "$tables/Chart2_2.dta"
+{txt}
+{com}. 
+. 
+. * high carbon intensity, low equity share
+. use "$data\2_Interim files\country_sector_cleaned.dta", clear
+{txt}
+{com}. 
+. reghdfe cotwo_per_gdp year_1991-year_2015 if cotwo_intensity_wd>.49 & fin_str2<.39 & cotwo_intensity_wd!=. & fin_str2!=. & share_l1!=., a(ci)
+{res}{txt}(dropped 12 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 1 iterations)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}     2,248
+{txt}Absorbing 1 HDFE group{col 51}F({res}  25{txt},{res}   2048{txt}){col 67}= {res}      9.35
+{txt}{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.8744
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.8622
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1025
+{txt}{col 51}Root MSE{col 67}= {res}    0.0090
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}cotwo_per~dp{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}year_1991 {c |}{col 14}{res}{space 2} .0006426{col 26}{space 2} .0014303{col 37}{space 1}    0.45{col 46}{space 3}0.653{col 54}{space 4}-.0021625{col 67}{space 3} .0034476
+{txt}{space 3}year_1992 {c |}{col 14}{res}{space 2} .0026766{col 26}{space 2} .0013774{col 37}{space 1}    1.94{col 46}{space 3}0.052{col 54}{space 4}-.0000247{col 67}{space 3} .0053778
+{txt}{space 3}year_1993 {c |}{col 14}{res}{space 2} .0028556{col 26}{space 2} .0013916{col 37}{space 1}    2.05{col 46}{space 3}0.040{col 54}{space 4} .0001264{col 67}{space 3} .0055847
+{txt}{space 3}year_1994 {c |}{col 14}{res}{space 2} .0028792{col 26}{space 2} .0014167{col 37}{space 1}    2.03{col 46}{space 3}0.042{col 54}{space 4} .0001008{col 67}{space 3} .0056576
+{txt}{space 3}year_1995 {c |}{col 14}{res}{space 2} .0045365{col 26}{space 2} .0014208{col 37}{space 1}    3.19{col 46}{space 3}0.001{col 54}{space 4} .0017501{col 67}{space 3} .0073229
+{txt}{space 3}year_1996 {c |}{col 14}{res}{space 2} .0021598{col 26}{space 2} .0014068{col 37}{space 1}    1.54{col 46}{space 3}0.125{col 54}{space 4}-.0005992{col 67}{space 3} .0049188
+{txt}{space 3}year_1997 {c |}{col 14}{res}{space 2} .0047257{col 26}{space 2} .0014593{col 37}{space 1}    3.24{col 46}{space 3}0.001{col 54}{space 4} .0018639{col 67}{space 3} .0075875
+{txt}{space 3}year_1998 {c |}{col 14}{res}{space 2} .0032558{col 26}{space 2} .0015396{col 37}{space 1}    2.11{col 46}{space 3}0.035{col 54}{space 4} .0002365{col 67}{space 3} .0062752
+{txt}{space 3}year_1999 {c |}{col 14}{res}{space 2} .0001831{col 26}{space 2} .0015376{col 37}{space 1}    0.12{col 46}{space 3}0.905{col 54}{space 4}-.0028322{col 67}{space 3} .0031985
+{txt}{space 3}year_2000 {c |}{col 14}{res}{space 2} .0004893{col 26}{space 2} .0015519{col 37}{space 1}    0.32{col 46}{space 3}0.753{col 54}{space 4}-.0025541{col 67}{space 3} .0035328
+{txt}{space 3}year_2001 {c |}{col 14}{res}{space 2}-.0004151{col 26}{space 2} .0014939{col 37}{space 1}   -0.28{col 46}{space 3}0.781{col 54}{space 4}-.0033448{col 67}{space 3} .0025146
+{txt}{space 3}year_2002 {c |}{col 14}{res}{space 2}-.0017599{col 26}{space 2} .0014544{col 37}{space 1}   -1.21{col 46}{space 3}0.226{col 54}{space 4}-.0046121{col 67}{space 3} .0010924
+{txt}{space 3}year_2003 {c |}{col 14}{res}{space 2}-.0012619{col 26}{space 2}   .00142{col 37}{space 1}   -0.89{col 46}{space 3}0.374{col 54}{space 4}-.0040467{col 67}{space 3}  .001523
+{txt}{space 3}year_2004 {c |}{col 14}{res}{space 2}-.0016031{col 26}{space 2} .0015083{col 37}{space 1}   -1.06{col 46}{space 3}0.288{col 54}{space 4} -.004561{col 67}{space 3} .0013549
+{txt}{space 3}year_2005 {c |}{col 14}{res}{space 2}-.0017182{col 26}{space 2} .0015334{col 37}{space 1}   -1.12{col 46}{space 3}0.263{col 54}{space 4}-.0047254{col 67}{space 3}  .001289
+{txt}{space 3}year_2006 {c |}{col 14}{res}{space 2}-.0022743{col 26}{space 2} .0015692{col 37}{space 1}   -1.45{col 46}{space 3}0.147{col 54}{space 4}-.0053517{col 67}{space 3} .0008031
+{txt}{space 3}year_2007 {c |}{col 14}{res}{space 2}-.0019543{col 26}{space 2} .0016985{col 37}{space 1}   -1.15{col 46}{space 3}0.250{col 54}{space 4}-.0052853{col 67}{space 3} .0013766
+{txt}{space 3}year_2008 {c |}{col 14}{res}{space 2}-.0022196{col 26}{space 2} .0013979{col 37}{space 1}   -1.59{col 46}{space 3}0.112{col 54}{space 4} -.004961{col 67}{space 3} .0005219
+{txt}{space 3}year_2009 {c |}{col 14}{res}{space 2}  -.00422{col 26}{space 2} .0013258{col 37}{space 1}   -3.18{col 46}{space 3}0.001{col 54}{space 4}-.0068201{col 67}{space 3}-.0016198
+{txt}{space 3}year_2010 {c |}{col 14}{res}{space 2}-.0041989{col 26}{space 2} .0013606{col 37}{space 1}   -3.09{col 46}{space 3}0.002{col 54}{space 4}-.0068673{col 67}{space 3}-.0015306
+{txt}{space 3}year_2011 {c |}{col 14}{res}{space 2}-.0034567{col 26}{space 2} .0013601{col 37}{space 1}   -2.54{col 46}{space 3}0.011{col 54}{space 4} -.006124{col 67}{space 3}-.0007894
+{txt}{space 3}year_2012 {c |}{col 14}{res}{space 2}-.0040628{col 26}{space 2} .0013144{col 37}{space 1}   -3.09{col 46}{space 3}0.002{col 54}{space 4}-.0066406{col 67}{space 3}-.0014851
+{txt}{space 3}year_2013 {c |}{col 14}{res}{space 2}-.0026808{col 26}{space 2} .0014724{col 37}{space 1}   -1.82{col 46}{space 3}0.069{col 54}{space 4}-.0055685{col 67}{space 3} .0002068
+{txt}{space 3}year_2014 {c |}{col 14}{res}{space 2}-.0053443{col 26}{space 2} .0014865{col 37}{space 1}   -3.60{col 46}{space 3}0.000{col 54}{space 4}-.0082596{col 67}{space 3}-.0024291
+{txt}{space 3}year_2015 {c |}{col 14}{res}{space 2}-.0067037{col 26}{space 2} .0014442{col 37}{space 1}   -4.64{col 46}{space 3}0.000{col 54}{space 4}-.0095361{col 67}{space 3}-.0038714
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0125866{col 26}{space 2}  .001044{col 37}{space 1}   12.06{col 46}{space 3}0.000{col 54}{space 4} .0105391{col 67}{space 3} .0146341
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text} Absorbed FE{col 14}{c |} Categories{col 27} - Redundant{col 39}  = Num. Coefs{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}          ci{col 14}{c |}{space 1}      175{col 27}{space 1}        0{col 39}{result}{space 1}      175{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+{res}{txt}
+{com}. 
+. regsave year_1991-year_2015 using "$tables/Chart2_3", replace
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables/Chart2_3.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables/Chart2_3.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. use "$tables/Chart2_3", clear
+{txt}
+{com}. 
+. keep var coef stderr
+{txt}
+{com}. gen year=.
+{txt}(25 missing values generated)
+
+{com}. foreach i of num 1991/2015 {c -(}
+{txt}  2{com}.     replace year=`i' if strpos(var, "`i'")
+{txt}  3{com}. {c )-}
+{txt}(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+{com}. drop var
+{txt}
+{com}. 
+. gen ci95=1.96*stderr
+{txt}
+{com}. label var coef "Point estimate"
+{txt}
+{com}. label var year "Year"
+{txt}
+{com}. 
+. serrbar coef ci95 year, xlabel(1991 "91" 1992 "92" 1993 "93" 1994 "94" 1995 "95" 1996 "96" 1997 "97" 1998 "98" 1999 "99" 2000 "00" 2001 "01" 2002 "02" 2003 "03" 2004 "04" 2005 "05" 2006 "06" 2007 "07" 2008 "08" 2009 "09" 2010 "10" 2011 "11" 2012 "12" 2013 "13" 2014 "14" 2015 "15", alternate) title ("High carbon intensity, low equity share") yscale (range(-0.02 0.01)) ylabel(#7)
+{res}{txt}
+{com}. 
+. graph export "${c -(}figures{c )-}/Chart2_3.png", replace height(1600)
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/Chart2_3.png{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/Chart2_3.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}. cap erase "$tables/Chart2_3.dta"
+{txt}
+{com}. 
+. 
+. * high carbon intensity, high equity share
+. use "$data\2_Interim files\country_sector_cleaned.dta", clear
+{txt}
+{com}. 
+. reghdfe cotwo_per_gdp year_1991-year_2015 if cotwo_intensity_wd>.49 & fin_str2>.39 & cotwo_intensity_wd!=. & fin_str2!=. & share_l1!=., a(ci)
+{res}{txt}(dropped 17 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 1 iterations)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}     2,192
+{txt}Absorbing 1 HDFE group{col 51}F({res}  25{txt},{res}   2000{txt}){col 67}= {res}     11.90
+{txt}{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.8564
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.8427
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1295
+{txt}{col 51}Root MSE{col 67}= {res}    0.0065
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}cotwo_per~dp{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}year_1991 {c |}{col 14}{res}{space 2}-.0018954{col 26}{space 2} .0014843{col 37}{space 1}   -1.28{col 46}{space 3}0.202{col 54}{space 4}-.0048063{col 67}{space 3} .0010155
+{txt}{space 3}year_1992 {c |}{col 14}{res}{space 2}-.0020326{col 26}{space 2} .0014759{col 37}{space 1}   -1.38{col 46}{space 3}0.169{col 54}{space 4} -.004927{col 67}{space 3} .0008618
+{txt}{space 3}year_1993 {c |}{col 14}{res}{space 2}-.0052745{col 26}{space 2} .0014719{col 37}{space 1}   -3.58{col 46}{space 3}0.000{col 54}{space 4}-.0081611{col 67}{space 3}-.0023879
+{txt}{space 3}year_1994 {c |}{col 14}{res}{space 2}-.0044496{col 26}{space 2} .0014062{col 37}{space 1}   -3.16{col 46}{space 3}0.002{col 54}{space 4}-.0072074{col 67}{space 3}-.0016917
+{txt}{space 3}year_1995 {c |}{col 14}{res}{space 2}-.0051076{col 26}{space 2} .0013572{col 37}{space 1}   -3.76{col 46}{space 3}0.000{col 54}{space 4}-.0077692{col 67}{space 3}-.0024459
+{txt}{space 3}year_1996 {c |}{col 14}{res}{space 2}-.0048147{col 26}{space 2} .0013582{col 37}{space 1}   -3.54{col 46}{space 3}0.000{col 54}{space 4}-.0074784{col 67}{space 3}-.0021509
+{txt}{space 3}year_1997 {c |}{col 14}{res}{space 2} -.005468{col 26}{space 2} .0013085{col 37}{space 1}   -4.18{col 46}{space 3}0.000{col 54}{space 4}-.0080341{col 67}{space 3}-.0029019
+{txt}{space 3}year_1998 {c |}{col 14}{res}{space 2}-.0060268{col 26}{space 2} .0013204{col 37}{space 1}   -4.56{col 46}{space 3}0.000{col 54}{space 4}-.0086164{col 67}{space 3}-.0034372
+{txt}{space 3}year_1999 {c |}{col 14}{res}{space 2}-.0064577{col 26}{space 2}  .001314{col 37}{space 1}   -4.91{col 46}{space 3}0.000{col 54}{space 4}-.0090347{col 67}{space 3}-.0038808
+{txt}{space 3}year_2000 {c |}{col 14}{res}{space 2}-.0063532{col 26}{space 2} .0012752{col 37}{space 1}   -4.98{col 46}{space 3}0.000{col 54}{space 4} -.008854{col 67}{space 3}-.0038524
+{txt}{space 3}year_2001 {c |}{col 14}{res}{space 2}-.0071541{col 26}{space 2} .0012831{col 37}{space 1}   -5.58{col 46}{space 3}0.000{col 54}{space 4}-.0096704{col 67}{space 3}-.0046378
+{txt}{space 3}year_2002 {c |}{col 14}{res}{space 2} -.007741{col 26}{space 2} .0013004{col 37}{space 1}   -5.95{col 46}{space 3}0.000{col 54}{space 4}-.0102913{col 67}{space 3}-.0051907
+{txt}{space 3}year_2003 {c |}{col 14}{res}{space 2}-.0080662{col 26}{space 2} .0013096{col 37}{space 1}   -6.16{col 46}{space 3}0.000{col 54}{space 4}-.0106345{col 67}{space 3} -.005498
+{txt}{space 3}year_2004 {c |}{col 14}{res}{space 2}-.0079808{col 26}{space 2} .0012766{col 37}{space 1}   -6.25{col 46}{space 3}0.000{col 54}{space 4}-.0104843{col 67}{space 3}-.0054773
+{txt}{space 3}year_2005 {c |}{col 14}{res}{space 2}-.0083966{col 26}{space 2}  .001272{col 37}{space 1}   -6.60{col 46}{space 3}0.000{col 54}{space 4}-.0108913{col 67}{space 3}-.0059019
+{txt}{space 3}year_2006 {c |}{col 14}{res}{space 2}-.0087332{col 26}{space 2} .0012686{col 37}{space 1}   -6.88{col 46}{space 3}0.000{col 54}{space 4}-.0112211{col 67}{space 3}-.0062453
+{txt}{space 3}year_2007 {c |}{col 14}{res}{space 2}-.0089789{col 26}{space 2} .0012694{col 37}{space 1}   -7.07{col 46}{space 3}0.000{col 54}{space 4}-.0114684{col 67}{space 3}-.0064895
+{txt}{space 3}year_2008 {c |}{col 14}{res}{space 2} -.009561{col 26}{space 2} .0013192{col 37}{space 1}   -7.25{col 46}{space 3}0.000{col 54}{space 4}-.0121482{col 67}{space 3}-.0069739
+{txt}{space 3}year_2009 {c |}{col 14}{res}{space 2}-.0101778{col 26}{space 2}  .001413{col 37}{space 1}   -7.20{col 46}{space 3}0.000{col 54}{space 4} -.012949{col 67}{space 3}-.0074066
+{txt}{space 3}year_2010 {c |}{col 14}{res}{space 2}-.0096403{col 26}{space 2} .0013474{col 37}{space 1}   -7.15{col 46}{space 3}0.000{col 54}{space 4}-.0122827{col 67}{space 3}-.0069979
+{txt}{space 3}year_2011 {c |}{col 14}{res}{space 2}-.0098879{col 26}{space 2} .0013601{col 37}{space 1}   -7.27{col 46}{space 3}0.000{col 54}{space 4}-.0125552{col 67}{space 3}-.0072206
+{txt}{space 3}year_2012 {c |}{col 14}{res}{space 2}-.0107439{col 26}{space 2} .0014314{col 37}{space 1}   -7.51{col 46}{space 3}0.000{col 54}{space 4}-.0135511{col 67}{space 3}-.0079366
+{txt}{space 3}year_2013 {c |}{col 14}{res}{space 2}-.0100898{col 26}{space 2} .0013739{col 37}{space 1}   -7.34{col 46}{space 3}0.000{col 54}{space 4}-.0127843{col 67}{space 3}-.0073954
+{txt}{space 3}year_2014 {c |}{col 14}{res}{space 2}-.0133591{col 26}{space 2} .0013425{col 37}{space 1}   -9.95{col 46}{space 3}0.000{col 54}{space 4}-.0159919{col 67}{space 3}-.0107263
+{txt}{space 3}year_2015 {c |}{col 14}{res}{space 2}-.0126066{col 26}{space 2}  .001408{col 37}{space 1}   -8.95{col 46}{space 3}0.000{col 54}{space 4} -.015368{col 67}{space 3}-.0098452
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0173218{col 26}{space 2} .0011227{col 37}{space 1}   15.43{col 46}{space 3}0.000{col 54}{space 4} .0151199{col 67}{space 3} .0195236
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text} Absorbed FE{col 14}{c |} Categories{col 27} - Redundant{col 39}  = Num. Coefs{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}          ci{col 14}{c |}{space 1}      167{col 27}{space 1}        0{col 39}{result}{space 1}      167{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+{res}{txt}
+{com}. 
+. regsave year_1991-year_2015 using "$tables/Chart2_4", replace
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables/Chart2_4.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables/Chart2_4.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. use "$tables/Chart2_4", clear
+{txt}
+{com}. 
+. keep var coef stderr
+{txt}
+{com}. gen year=.
+{txt}(25 missing values generated)
+
+{com}. foreach i of num 1991/2015 {c -(}
+{txt}  2{com}.     replace year=`i' if strpos(var, "`i'")
+{txt}  3{com}. {c )-}
+{txt}(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+{com}. drop var
+{txt}
+{com}. 
+. gen ci95=1.96*stderr
+{txt}
+{com}. label var coef "Point estimate"
+{txt}
+{com}. label var year "Year"
+{txt}
+{com}. 
+. serrbar coef ci95 year, xlabel(1991 "91" 1992 "92" 1993 "93" 1994 "94" 1995 "95" 1996 "96" 1997 "97" 1998 "98" 1999 "99" 2000 "00" 2001 "01" 2002 "02" 2003 "03" 2004 "04" 2005 "05" 2006 "06" 2007 "07" 2008 "08" 2009 "09" 2010 "10" 2011 "11" 2012 "12" 2013 "13" 2014 "14" 2015 "15", alternate) title ("High carbon intensity, high equity share") yscale (range(-0.02 0.01)) ylabel(#7)
+{res}{txt}
+{com}. 
+. graph export "${c -(}figures{c )-}/Chart2_4.png", replace height(1600)
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/Chart2_4.png{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/Chart2_4.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}. cap erase "$tables/Chart2_4.dta"
+{txt}
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\4_logs\3 Charts.txt
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 2 Nov 2026, 21:23:58
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

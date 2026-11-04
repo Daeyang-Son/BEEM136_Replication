@@ -1,0 +1,198 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\4_logs\6 Charts Online Appendix.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 2 Nov 2026, 21:24:08
+{txt}
+{com}. 
+. ********************************************************************************        
+. di "SUMMARY STATISTICS (OA CHART 1)"
+{res}SUMMARY STATISTICS (OA CHART 1)
+{txt}
+{com}. ********************************************************************************
+. 
+. use "$data\2_Interim files\orbis_cleaned.dta", clear
+{txt}
+{com}. 
+. forval x=1995(1)2018 {c -(}
+{txt}  2{com}. gen dummy_`x'=0
+{txt}  3{com}. replace dummy_`x'=1 if year==`x'
+{txt}  4{com}. gen dummy_`x'_cotwo_ass=dummy_`x'*cotwo_ass
+{txt}  5{com}. gen dummy_`x'_cotwo_sal=dummy_`x'*cotwo_sal
+{txt}  6{com}. {c )-}
+{txt}(1,178 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(1,369 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(1,539 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(1,740 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(2,185 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(2,338 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(2,436 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(2,613 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(2,739 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(2,843 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,037 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,037 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,037 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,037 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,037 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,073 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,073 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,073 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,073 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,073 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,073 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,073 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,073 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+(4,027 real changes made)
+(28 missing values generated)
+(161 missing values generated)
+
+{com}. 
+. * emissions
+. 
+. reghdfe log_emissions_per_assets dummy_2006_cotwo_sal dummy_2007_cotwo_sal dummy_2008_cotwo_sal dummy_2009_cotwo_sal dummy_2010_cotwo_sal if country=="BE" & year>=2005 & year<=2010, a(firmid year)
+{res}{txt}(dropped 3 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 5 iterations)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}       785
+{txt}Absorbing 2 HDFE groups{col 51}F({res}   5{txt},{res}    633{txt}){col 67}= {res}      8.81
+{txt}{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9099
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.8884
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.0650
+{txt}{col 51}Root MSE{col 67}= {res}    0.5809
+
+{txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}log_emissi~ts{col 15}{c |} Coefficient{col 27}  Std. err.{col 39}      t{col 47}   P>|t|{col 55}     [95% con{col 68}f. interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+dummy_2006_~l {c |}{col 15}{res}{space 2}-.0017496{col 27}{space 2} .0012741{col 38}{space 1}   -1.37{col 47}{space 3}0.170{col 55}{space 4}-.0042515{col 68}{space 3} .0007524
+{txt}dummy_2007_~l {c |}{col 15}{res}{space 2}-.0027117{col 27}{space 2} .0012747{col 38}{space 1}   -2.13{col 47}{space 3}0.034{col 55}{space 4}-.0052148{col 68}{space 3}-.0002086
+{txt}dummy_2008_~l {c |}{col 15}{res}{space 2} -.003963{col 27}{space 2} .0013621{col 38}{space 1}   -2.91{col 47}{space 3}0.004{col 55}{space 4}-.0066379{col 68}{space 3}-.0012882
+{txt}dummy_2009_~l {c |}{col 15}{res}{space 2}-.0072513{col 27}{space 2}  .001272{col 38}{space 1}   -5.70{col 47}{space 3}0.000{col 55}{space 4}-.0097493{col 68}{space 3}-.0047534
+{txt}dummy_2010_~l {c |}{col 15}{res}{space 2}-.0038813{col 27}{space 2} .0013616{col 38}{space 1}   -2.85{col 47}{space 3}0.005{col 55}{space 4}-.0065552{col 68}{space 3}-.0012074
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2}-1.221667{col 27}{space 2} .0313169{col 38}{space 1}  -39.01{col 47}{space 3}0.000{col 55}{space 4}-1.283164{col 68}{space 3}-1.160169
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text} Absorbed FE{col 14}{c |} Categories{col 27} - Redundant{col 39}  = Num. Coefs{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}      firmid{col 14}{c |}{space 1}      142{col 27}{space 1}        0{col 39}{result}{space 1}      142{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}        year{col 14}{c |}{space 1}        6{col 27}{space 1}        1{col 39}{result}{space 1}        5{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+{res}{txt}
+{com}. 
+. regsave dummy_2006_cotwo_sal dummy_2007_cotwo_sal dummy_2008_cotwo_sal dummy_2009_cotwo_sal dummy_2010_cotwo_sal using "$tables/OA_Chart1", replace
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables/OA_Chart1.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\3_tables/OA_Chart1.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. use "$tables/OA_Chart1", clear
+{txt}
+{com}. keep var coef stderr
+{txt}
+{com}. gen year=.
+{txt}(5 missing values generated)
+
+{com}. 
+. foreach i of num 2006/2010 {c -(}
+{txt}  2{com}.     replace year=`i' if strpos(var, "`i'")
+{txt}  3{com}. {c )-}
+{txt}(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+{com}. 
+. drop var
+{txt}
+{com}. gen ci90=1.66*stderr
+{txt}
+{com}. 
+. label var coef "Point estimate"
+{txt}
+{com}. 
+. * domestic loans
+. 
+. serrbar coef ci90 year, xlabel(2005 "-1" 2006 "0" 2007 "1" 2008 "2" 2009 "3" 2010 "4") title ("Notional interest deduction and log emissions")
+{res}{txt}
+{com}. 
+. graph export "${c -(}figures{c )-}/ChartOA1.png", replace height(1600)
+{txt}{p 0 4 2}
+(file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/ChartOA1.png{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\2_figures/ChartOA1.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ocean\Desktop\MRes\Research\Replication\Finance and Green Growth\Replication\Replication_Total\4_logs\6 Charts Online Appendix.txt
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 2 Nov 2026, 21:24:10
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
